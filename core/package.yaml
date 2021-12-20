@@ -1,0 +1,19 @@
+name:                captcha-core
+version:             0.1.0.0
+github:              "qwbarch/captcha-haskell"
+license:             MIT
+author:              "Edward Yang"
+maintainer:          "qwbarch@gmail.com"
+copyright:           "2021 Edward Yang"
+
+extra-source-files:
+- README.md
+- CHANGELOG.md
+
+description:         Please see the README on GitHub at <https://github.com/githubuser/captcha-core#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
