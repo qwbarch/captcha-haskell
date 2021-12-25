@@ -3,7 +3,63 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: data-default-extra-0.0.1@sha256:f8601f01a8d071cc86b5d14544b579d249f0c50893990da8f183c058a3c5a5e3,5616
+    pantry-tree:
+      size: 391
+      sha256: 90c30e787b8d076e96c9d985f7b6acdce8c4b7add84e51513dec01643bb099d1
+  original:
+    hackage: data-default-extra-0.0.1@sha256:f8601f01a8d071cc86b5d14544b579d249f0c50893990da8f183c058a3c5a5e3,5616
+- completed:
+    hackage: data-default-instances-base-0.1.0.1@sha256:985a13d7103e45a65f06f277b735ef025636014f0d29dd6de998bc7628e09be9,509
+    pantry-tree:
+      size: 242
+      sha256: 92969ddf22c5f54123fb2bcfbe5917b59a7e6382473b0306bcd8fb7990d9aa1a
+  original:
+    hackage: data-default-instances-base-0.1.0.1@sha256:985a13d7103e45a65f06f277b735ef025636014f0d29dd6de998bc7628e09be9,509
+- completed:
+    hackage: data-default-instances-bytestring-0.0.1@sha256:592075c7d9f5bde9fe98d31dd2b7412cdb4bb29158b49bee04379fe0895aed3e,2438
+    pantry-tree:
+      size: 359
+      sha256: 0fc29775b358a74b79941ad5d19d39a72459412eee5d0ad6b75fe4552a534612
+  original:
+    hackage: data-default-instances-bytestring-0.0.1@sha256:592075c7d9f5bde9fe98d31dd2b7412cdb4bb29158b49bee04379fe0895aed3e,2438
+- completed:
+    hackage: data-default-instances-case-insensitive-0.0.1@sha256:45a89ccc5e4e6dbca37c7c0826c1f1c75d774d49afa9ce94f0412edee53f1371,1757
+    pantry-tree:
+      size: 370
+      sha256: 21acad342cfd546e0a2352f7b60abb0a677060d807845d4d2eed20f4588e7c6c
+  original:
+    hackage: data-default-instances-case-insensitive-0.0.1@sha256:45a89ccc5e4e6dbca37c7c0826c1f1c75d774d49afa9ce94f0412edee53f1371,1757
+- completed:
+    hackage: data-default-instances-new-base-0.0.2@sha256:1f90fe762c978f9fd0fcbf6d4cb6cd191d261e25acf9308505b3444aef8c079f,3227
+    pantry-tree:
+      size: 355
+      sha256: e7c1497196ceceb7916c5077af62fdbe0399aec5662927d371211105b51c6be6
+  original:
+    hackage: data-default-instances-new-base-0.0.2@sha256:1f90fe762c978f9fd0fcbf6d4cb6cd191d261e25acf9308505b3444aef8c079f,3227
+- completed:
+    hackage: data-default-instances-text-0.0.1@sha256:5a8acbe0d420430c2cc2dc7865fa69d179c9ad43dda47aefcc6560fed72e2204,2121
+    pantry-tree:
+      size: 347
+      sha256: 6220e4ea21f4df8cae8936626ac08bd43bec1e983d833a5234a36b95281e01f9
+  original:
+    hackage: data-default-instances-text-0.0.1@sha256:5a8acbe0d420430c2cc2dc7865fa69d179c9ad43dda47aefcc6560fed72e2204,2121
+- completed:
+    hackage: data-default-instances-unordered-containers-0.0.1@sha256:fc2e79e605ef4fd67f222d11f43aaed40fbc08e3ca421cd29f5982a391f90ebe,1757
+    pantry-tree:
+      size: 378
+      sha256: 5e2b496e696d5ea3abe7011386fcb8ddb24f9affa4e34feea2665a91581624f5
+  original:
+    hackage: data-default-instances-unordered-containers-0.0.1@sha256:fc2e79e605ef4fd67f222d11f43aaed40fbc08e3ca421cd29f5982a391f90ebe,1757
+- completed:
+    hackage: data-default-instances-vector-0.0.1@sha256:8a78beb491235231802c98fb1a58fea519359be1c9374b9f08d37feed34a385e,1791
+    pantry-tree:
+      size: 351
+      sha256: 1535e9e996894b238b51a272045bde55c8d4a294cd87b1deb23e3d28fc15b632
+  original:
+    hackage: data-default-instances-vector-0.0.1@sha256:8a78beb491235231802c98fb1a58fea519359be1c9374b9f08d37feed34a385e,1791
 snapshots:
 - completed:
     size: 611906
