@@ -27,7 +27,9 @@ library
   exposed-modules:
       Captcha.Internal.Monad
       Captcha.Internal.Monad.Class
+      Captcha.Internal.Types
       Captcha.Internal.Types.Image
+      Captcha.Internal.Types.ReCaptcha
       Captcha.Internal.Types.Text
   other-modules:
       Paths_captcha_core
@@ -36,6 +38,7 @@ library
   ghc-options: -Wall -Wno-name-shadowing
   build-depends:
       base >=4.7 && <5
+    , cookie >=0.4.5 && <0.5
     , data-default-extra >=0.0.1 && <0.1
     , lens >=4.19.2 && <5.1
     , mtl >=2.2.2 && <2.3
