@@ -28,10 +28,6 @@ library
       Captcha.Internal.Monad
       Captcha.Internal.Monad.Class
       Captcha.Internal.Types
-      Captcha.Internal.Types.FunCaptcha
-      Captcha.Internal.Types.Image
-      Captcha.Internal.Types.ReCaptcha
-      Captcha.Internal.Types.Text
   other-modules:
       Paths_captcha_core
   hs-source-dirs:
