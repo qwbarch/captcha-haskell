@@ -19,7 +19,7 @@ instance Default Bool where
   def = False
 
 -- | Proxy protocol.
-data ProxyProtocol = Http | Https | Sock4 | Socks5
+data ProxyProtocol = Http | Https | Sock4 | Socks5 deriving (Show)
 
 instance Default ProxyProtocol where
   def = Http
@@ -29,7 +29,7 @@ data ProxyAuth = ProxyAuth
   { _login :: Text,
     _password :: Text
   }
-  deriving (Generic, Default)
+  deriving (Generic, Default, Show)
 
 makeFieldsNoPrefix ''ProxyAuth
 
@@ -42,7 +42,7 @@ data Proxy = Proxy
     -- | Proxy authentication, if required.
     _auth :: Maybe ProxyAuth
   }
-  deriving (Generic, Default)
+  deriving (Generic, Default, Show)
 
 makeFieldsNoPrefix ''Proxy
 
@@ -53,7 +53,7 @@ data ImageCaptcha a = ImageCaptcha
     -- | The image, encoded in base-64.
     _body :: Text
   }
-  deriving (Generic, Default)
+  deriving (Generic, Default, Show)
 
 makeFieldsNoPrefix ''ImageCaptcha
 
@@ -64,7 +64,7 @@ data TextCaptcha a = TextCaptcha
     -- | The text captcha to solve.
     _body :: Text
   }
-  deriving (Generic, Default)
+  deriving (Generic, Default, Show)
 
 makeFieldsNoPrefix ''TextCaptcha
 
@@ -85,7 +85,7 @@ data FunCaptcha a = FunCaptcha
     -- | Cookies to be used when solving the captcha.
     _cookies :: Cookies
   }
-  deriving (Generic, Default)
+  deriving (Generic, Default, Show)
 
 makeFieldsNoPrefix ''FunCaptcha
 
@@ -108,7 +108,7 @@ data ReCaptchaV2 a = ReCaptchaV2
     -- | Cookies to be used when solving the captcha.
     _cookies :: Cookies
   }
-  deriving (Generic, Default)
+  deriving (Generic, Default, Show)
 
 makeFieldsNoPrefix ''ReCaptchaV2
 
@@ -131,6 +131,31 @@ data ReCaptchaV3 a = ReCaptchaV3
     -- | Cookies to be used when solving the captcha.
     _cookies :: Cookies
   }
-  deriving (Generic, Default)
+  deriving (Generic, Default, Show)
 
 makeFieldsNoPrefix ''ReCaptchaV3
+
+-- | Parameters for solving hCaptcha.
+data HCaptcha = HCaptcha
+  { -- | The captcha solver's API key.
+    _apiKey :: Text,
+    -- | Url where the captcha is found.
+    _captchaUrl :: Text,
+    -- | hCaptcha's __data-sitekey__ value.
+    _captchaKey :: Text,
+    -- | Is the hCaptcha an __invisible__ or __normal__ captcha?
+    _invisible :: Bool,
+    -- |
+    -- Custom data used in some implementations of hCaptcha.
+    -- Note: You must provide a matching user agent if this is used.
+    _rqData :: Maybe Text,
+    -- | User agent to be used when solving the captcha. Required when using 'rqData'.
+    _userAgent :: Maybe Text,
+    -- | Proxy to be used when solving the captcha.
+    _proxy :: Maybe Proxy,
+    -- | Cookies to be used when solving the captcha.
+    _cookies :: Cookies
+  }
+  deriving (Show, Generic, Default)
+
+makeFieldsNoPrefix ''HCaptcha
