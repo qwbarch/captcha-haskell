@@ -6,6 +6,7 @@
 
 module Captcha.Internal.Types.ReCaptcha where
 
+import Captcha.Internal.Types (Proxy)
 import Control.Lens.TH (makeFieldsNoPrefix)
 import Data.Text (Text)
 import Web.Cookie (Cookies)
@@ -23,7 +24,9 @@ data ReCaptchaV2 = ReCaptchaV2
     -- | Is the reCAPTCHA an __invisible__ or __normal__ captcha?
     _invisible :: Bool,
     -- | Cookies to be used when solving the captcha.
-    _cookies :: Cookies
+    _cookies :: Cookies,
+    -- | Proxy to be used when solving the captcha.
+    _proxy :: Maybe Proxy
   }
 
 makeFieldsNoPrefix ''ReCaptchaV2
