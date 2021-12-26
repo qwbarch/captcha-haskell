@@ -136,7 +136,7 @@ data ReCaptchaV3 a = ReCaptchaV3
 makeFieldsNoPrefix ''ReCaptchaV3
 
 -- | Parameters for solving hCaptcha.
-data HCaptcha = HCaptcha
+data HCaptcha a = HCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | Url where the captcha is found.
@@ -159,3 +159,24 @@ data HCaptcha = HCaptcha
   deriving (Show, Generic, Default)
 
 makeFieldsNoPrefix ''HCaptcha
+
+-- | Parameters for solving GeeTest.
+data GeeTest a = GeeTest
+  { -- | The captcha solver's API key.
+    _apiKey :: Text,
+    -- | Url where the captcha is found.
+    _captchaUrl :: Text,
+    -- | GeeTest's __gt__ value.
+    _gt :: Text,
+    -- | GeeTest's __challenge__ value.
+    _challenge :: Text,
+    -- | GeeTest's __api_server__ value.
+    _apiServer :: Maybe Text,
+    -- | User agent to be used when solving the cpatcha.
+    _userAgent :: Maybe Text,
+    -- | Proxy to be used when solving the captcha.
+    _proxy :: Maybe Proxy
+  }
+  deriving (Generic, Default, Show)
+
+makeFieldsNoPrefix ''GeeTest
