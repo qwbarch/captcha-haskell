@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FunctionalDependencies #-}
@@ -8,11 +10,13 @@ module Captcha.Internal.Types.ReCaptcha where
 
 import Captcha.Internal.Types (Proxy)
 import Control.Lens.TH (makeFieldsNoPrefix)
+import Data.Default (Default)
 import Data.Text (Text)
+import GHC.Generics (Generic)
 import Web.Cookie (Cookies)
 
 -- | Parameters for solving Google's reCAPTCHA v2.
-data ReCaptchaV2 = ReCaptchaV2
+data ReCaptchaV2 a = ReCaptchaV2
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | Url where the captcha is found.
@@ -23,11 +27,14 @@ data ReCaptchaV2 = ReCaptchaV2
     _dataS :: Maybe Text,
     -- | Is the reCAPTCHA an __invisible__ or __normal__ captcha?
     _invisible :: Bool,
-    -- | Cookies to be used when solving the captcha.
-    _cookies :: Cookies,
+    -- | User agent to be used when solving the captcha.
+    _userAgent :: Maybe Text,
     -- | Proxy to be used when solving the captcha.
-    _proxy :: Maybe Proxy
+    _proxy :: Maybe Proxy,
+    -- | Cookies to be used when solving the captcha.
+    _cookies :: Cookies
   }
+  deriving (Generic, Default)
 
 makeFieldsNoPrefix ''ReCaptchaV2
 
@@ -42,7 +49,14 @@ data ReCaptchaV3 = ReCaptchaV3
     -- | reCAPTCHA v3's minimum score.
     _minScore :: Double,
     -- | reCAPTCHA v3's __action__ value.
-    _action :: Maybe Text
+    _action :: Maybe Text,
+    -- | User agent to be used when solving the captcha.
+    _userAgent :: Maybe Text,
+    -- | Proxy to be used when solving the captcha.
+    _proxy :: Maybe Proxy,
+    -- | Cookies to be used when solving the captcha.
+    _cookies :: Cookies
   }
+  deriving (Generic, Default)
 
 makeFieldsNoPrefix ''ReCaptchaV3

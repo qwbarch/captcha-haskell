@@ -27,3 +27,4 @@ library:
   ghc-options:
     - -Wall
     - -Wno-name-shadowing
+    - -fno-warn-orphans

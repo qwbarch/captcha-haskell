@@ -12,6 +12,10 @@ import Data.Default (Default (def))
 import Data.Text (Text)
 import GHC.Generics (Generic)
 
+-- | 'Default' instance for 'Bool' is not defined by default.
+instance Default Bool where
+  def = False
+
 -- | Proxy protocol.
 data ProxyProtocol = Http | Https | Sock4 | Socks5
 

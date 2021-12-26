@@ -28,6 +28,7 @@ library
       Captcha.Internal.Monad
       Captcha.Internal.Monad.Class
       Captcha.Internal.Types
+      Captcha.Internal.Types.FunCaptcha
       Captcha.Internal.Types.Image
       Captcha.Internal.Types.ReCaptcha
       Captcha.Internal.Types.Text
@@ -35,7 +36,7 @@ library
       Paths_captcha_core
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-name-shadowing
+  ghc-options: -Wall -Wno-name-shadowing -fno-warn-orphans
   build-depends:
       base >=4.7 && <5
     , cookie >=0.4.5 && <0.5
