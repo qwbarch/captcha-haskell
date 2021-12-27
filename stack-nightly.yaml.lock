@@ -62,7 +62,7 @@ packages:
     hackage: data-default-instances-vector-0.0.1@sha256:8a78beb491235231802c98fb1a58fea519359be1c9374b9f08d37feed34a385e,1791
 snapshots:
 - completed:
-    size: 611906
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2021/12/20.yaml
-    sha256: 527ac3e01f724756d369f9aa7e62243dcd5cc431c91cac4bdf459155d7b477ae
-  original: nightly-2021-12-20
+    size: 616062
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2021/12/22.yaml
+    sha256: a7576faf831c013017375897209db850f89d0c8fe1676ddf66e7fab29d97a12d
+  original: nightly-2021-12-22

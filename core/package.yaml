@@ -10,7 +10,7 @@ extra-source-files:
   - README.md
   - CHANGELOG.md
 
-description: Please see the README on GitHub at <https://github.com/githubuser/captcha-core#readme>
+description: Please see the README on GitHub at <https://github.com/qwbarch/captcha-haskell#readme>
 
 dependencies:
   - base >= 4.7 && < 5

@@ -1,0 +1,42 @@
+name: captcha-capmonster
+version: 0.1.0.0
+github: "qwbarch/captcha-haskell"
+license: MIT 
+author: "Edward Yang"
+maintainer: "qwbarch@gmail.com"
+copyright: "2021 Edward Yang"
+
+extra-source-files:
+  - README.md
+  - CHANGELOG.md
+
+description: Please see the README on GitHub at <https://github.com/qwbarch/captcha-haskell#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- captcha-core >= 0.1 && < 0.2
+
+library:
+  source-dirs: src
+
+executables:
+  capmonster-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - captcha-capmonster
+
+tests:
+  capmonster-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - captcha-capmonster
