@@ -1,0 +1,46 @@
+module Captcha.CapMonster.Internal.Error where
+
+import Data.Text (Text)
+import Network.HTTP.Client (HttpException)
+
+-- | All possible errors when solving a captcha using CapMonster.
+data CapMonsterError
+  = -- | An error returned by the CapMonster API.
+    CapMonsterResponseError CapMonsterErrorCode
+  | -- |
+    -- An error returned by the CapMonster API that
+    -- does not exist as a 'CapMonsterErrorCode' yet.
+    --
+    -- This error holds the error code, followed by its description.
+    UnknownResponseError Text Text
+  | -- | An error when sending the http request.
+    NetworkError HttpException
+
+-- | An error code returned by the CapMonster API.
+data CapMonsterErrorCode
+  = -- | The provided API key does not exist.
+    KeyDoesNotExist
+  | -- | The size of the captcha must be 100 bytes or larger.
+    ZeroCaptchaFileSize
+  | -- | The size of the captcha must be less than 50,000 bytes.
+    TooBigFileSize
+  | -- | Your CapMonster balance is empty.
+    ZeroBalance
+  | -- | Requests from your current API key is not allowed from your ip.
+    IpNotAllowed
+  | -- | The captcha cannot be solved. Perhaps it's a corrupted image, or contains too much noise?
+    CaptchaUnsolvable
+  | -- | The captcha id does not exist. Is the captcha older than 5 minutes?
+    InvalidCaptchaId
+  | -- | The captcha has not been solved yet.
+    CaptchaNotReady
+  | -- | You have sent too many requests with an incorrect API key. Try again later.
+    IpBanned
+  | -- |
+    -- The requested method does not exist. You should not ever have to see this error as a user.
+    -- If this is ever seen, please open an issue: https://github.com/qwbarch/captcha-haskell/issues
+    NoSuchMethod
+  | -- | You are being rate limited. Try not to request the result of a captcha more than 1 time per 2 seconds.
+    TooManyRequests
+  | -- | The specified domain cannot be solved by CapMonster.
+    DomainNotAllowed
