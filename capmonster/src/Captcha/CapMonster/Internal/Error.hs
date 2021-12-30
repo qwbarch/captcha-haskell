@@ -1,5 +1,9 @@
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 module Captcha.CapMonster.Internal.Error where
 
+import Data.Foldable (find)
 import Data.Text (Text)
 import Network.HTTP.Client (HttpException)
 
@@ -44,3 +48,24 @@ data CapMonsterErrorCode
     TooManyRequests
   | -- | The specified domain cannot be solved by CapMonster.
     DomainNotAllowed
+  deriving (Show, Eq, Ord, Enum, Bounded)
+
+-- | Textual representation of a 'CapMonsterErrorCode'.
+errorCode :: CapMonsterErrorCode -> Text
+errorCode = \case
+  KeyDoesNotExist -> "ERROR_KEY_DOES_NOT_EXIST"
+  ZeroCaptchaFileSize -> "ERROR_ZERO_CAPTCHA_FILESIZE"
+  TooBigFileSize -> "ERROR_TOO_BIG_CAPTCHA_FILESIZE"
+  ZeroBalance -> "ERROR_ZERO_BALANCE"
+  IpNotAllowed -> "ERROR_IP_NOT_ALLOWED"
+  CaptchaUnsolvable -> "ERROR_CAPTCHA_UNSOLVABLE"
+  InvalidCaptchaId -> "ERROR_NO_SUCH_CAPCHA_ID"
+  CaptchaNotReady -> "CAPTCHA_NOT_READY"
+  IpBanned -> "ERROR_IP_BANNED"
+  NoSuchMethod -> "ERROR_NO_SUCH_METHOD"
+  TooManyRequests -> "ERROR_TOO_MUCH_REQUESTS"
+  DomainNotAllowed -> "ERROR_DOMAIN_NOT_ALLOWED"
+
+-- | Parse an error code into its equivalent 'CapMonsterErrorCode'.
+parseError :: Text -> Maybe CapMonsterErrorCode
+parseError code = find ((== code) . errorCode) [minBound .. maxBound]
