@@ -4,34 +4,35 @@
 
 module Captcha.Internal.Monad.Class where
 
+import Data.ByteString.Lazy (ByteString)
 import Data.Text (Text)
+import Network.Wreq (Response)
 
--- |
--- 'MonadCaptcha' provides an interface over 'solve', using
--- the given API context.
---
--- For examples, please refer to the README.
-class Monad m => MonadCaptcha ctx m where
-  -- | An error returned by the captcha service.
-  type CaptchaError ctx
+-- | Abstracts over a resource using the given captcha context.
+class CaptchaCtx ctx m where
+  -- | Sends a request with the given context.
+  request :: ctx -> m (Response ByteString)
 
-  -- | Submit the given captcha to be solved by the captcha service.
-  submit :: ctx -> m (Either (CaptchaError ctx) CaptchaId)
+-- | Abstracts over a captcha solving service.
+class Monad m => MonadCaptcha api m where
+  -- | An error specific to the captcha solving service.
+  type CaptchaError api m
 
-  -- | Attempt to retrieve the result of the solved captcha.
-  result :: CaptchaId -> m (Either (CaptchaError ctx) CaptchaResult)
+  -- | Submit a task to be solved by the api service.
+  createTask :: CaptchaCtx ctx m => ctx -> m (Either (CaptchaError api m) CaptchaId)
+
+  -- | Attempt to retrieve the answer of the captcha.
+  getTask :: CaptchaId -> m (Either (CaptchaError api m) Text)
 
   -- |
-  -- Combines 'submit' and 'result', where the captcha is
-  -- submitted to the captcha service, and then the answer is polled
+  -- Solves a captcha by submitting it with 'createTask' and then polling with 'getTask'
   -- until the answer is ready.
-  --
-  -- This function polls at an interval set by the given context.
-  -- A timeout duration is also set by the given context.
-  solve :: ctx -> m (Either (CaptchaError ctx) CaptchaResult)
+  -- This will poll until the configured timeout duration is past.
+  -- Its default value depends on the captcha service.
+  solve :: CaptchaCtx ctx m => ctx -> m (Either (CaptchaError api m) Text)
 
--- | An identifier given from the captcha solving service.
-type CaptchaId = Text
-
--- | The result of the solved captcha.
-type CaptchaResult = Text
+-- | Identifier for retrieving a captcha's answer.
+newtype CaptchaId = CaptchaId
+  { unCaptchaId :: Text
+  }
+  deriving (Show, Eq, Ord)

@@ -36,6 +36,7 @@ library
   ghc-options: -Wall -Wno-name-shadowing -fno-warn-orphans
   build-depends:
       base >=4.7 && <5
+    , bytestring >=0.10.12.0 && <0.11
     , cookie >=0.4.5 && <0.5
     , data-default-extra >=0.0.1 && <0.1
     , lens >=4.19.2 && <5.1
