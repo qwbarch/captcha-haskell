@@ -23,7 +23,7 @@ newtype Captcha a = Captcha
     )
     via ReaderT CaptchaEnv IO
 
--- | HTTP 'Session' to be reused for each request.
+-- | Provides an HTTP 'Session' to be reused for each request.
 newtype CaptchaEnv = CaptchaEnv
   { _session :: Session
   }

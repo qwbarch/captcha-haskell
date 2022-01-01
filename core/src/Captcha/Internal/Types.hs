@@ -11,6 +11,7 @@ module Captcha.Internal.Types where
 import Control.Lens.TH (makeFieldsNoPrefix)
 import Data.Default (Default (def))
 import Data.Text (Text)
+import Data.Time (DiffTime)
 import GHC.Generics (Generic)
 import Web.Cookie (Cookies)
 
@@ -50,6 +51,10 @@ makeFieldsNoPrefix ''Proxy
 data ImageCaptcha a = ImageCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
+    -- | The interval to poll for the captcha's answer.
+    _pollingInterval :: Maybe DiffTime,
+    -- | The duration to keep polling for the answer.
+    _timeoutDuration :: Maybe DiffTime,
     -- | The image, encoded in base-64.
     _body :: Text
   }
@@ -61,6 +66,10 @@ makeFieldsNoPrefix ''ImageCaptcha
 data TextCaptcha a = TextCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
+    -- | The interval to poll for the captcha's answer.
+    _pollingInterval :: Maybe DiffTime,
+    -- | The duration to keep polling for the answer.
+    _timeoutDuration :: Maybe DiffTime,
     -- | The text captcha to solve.
     _body :: Text
   }
@@ -72,6 +81,10 @@ makeFieldsNoPrefix ''TextCaptcha
 data FunCaptcha a = FunCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
+    -- | The interval to poll for the captcha's answer.
+    _pollingInterval :: Maybe DiffTime,
+    -- | The duration to keep polling for the answer.
+    _timeoutDuration :: Maybe DiffTime,
     -- | Url where the captcha is found.
     _captchaUrl :: Text,
     -- | FunCaptcha's __data-pkey__ value.
@@ -93,6 +106,10 @@ makeFieldsNoPrefix ''FunCaptcha
 data ReCaptchaV2 a = ReCaptchaV2
   { -- | The captcha solver's API key.
     _apiKey :: Text,
+    -- | The interval to poll for the captcha's answer.
+    _pollingInterval :: Maybe DiffTime,
+    -- | The duration to keep polling for the answer.
+    _timeoutDuration :: Maybe DiffTime,
     -- | Url where the captcha is found.
     _captchaUrl :: Text,
     -- | reCAPTCHA v2's __data-sitekey__ value.
@@ -116,6 +133,10 @@ makeFieldsNoPrefix ''ReCaptchaV2
 data ReCaptchaV3 a = ReCaptchaV3
   { -- | The captcha solver's API key.
     _apiKey :: Text,
+    -- | The interval to poll for the captcha's answer.
+    _pollingInterval :: Maybe DiffTime,
+    -- | The duration to keep polling for the answer.
+    _timeoutDuration :: Maybe DiffTime,
     -- | Url where the captcha is found.
     _captchaUrl :: Text,
     -- | reCAPTCHA v3's __sitekey__ value.
@@ -139,6 +160,10 @@ makeFieldsNoPrefix ''ReCaptchaV3
 data HCaptcha a = HCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
+    -- | The interval to poll for the captcha's answer.
+    _pollingInterval :: Maybe DiffTime,
+    -- | The duration to keep polling for the answer.
+    _timeoutDuration :: Maybe DiffTime,
     -- | Url where the captcha is found.
     _captchaUrl :: Text,
     -- | hCaptcha's __data-sitekey__ value.
@@ -164,6 +189,10 @@ makeFieldsNoPrefix ''HCaptcha
 data GeeTest a = GeeTest
   { -- | The captcha solver's API key.
     _apiKey :: Text,
+    -- | The interval to poll for the captcha's answer.
+    _pollingInterval :: Maybe DiffTime,
+    -- | The duration to keep polling for the answer.
+    _timeoutDuration :: Maybe DiffTime,
     -- | Url where the captcha is found.
     _captchaUrl :: Text,
     -- | GeeTest's __gt__ value.

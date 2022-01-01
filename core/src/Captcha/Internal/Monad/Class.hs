@@ -27,6 +27,7 @@ class Monad m => MonadCaptcha api m where
   -- |
   -- Solves a captcha by submitting it with 'createTask' and then polling with 'getTask'
   -- until the answer is ready.
+  --
   -- This will poll until the configured timeout duration is past.
   -- Its default value depends on the captcha service.
   solve :: CaptchaCtx ctx m => ctx -> m (Either (CaptchaError api m) Text)
