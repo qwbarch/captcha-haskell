@@ -6,3 +6,4 @@ where
 
 import Captcha.CapMonster.Internal.CapMonster
 import Captcha.CapMonster.Internal.Error
+import Captcha.CapMonster.Internal.Types.Image ()

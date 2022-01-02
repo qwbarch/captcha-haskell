@@ -28,12 +28,13 @@ library
       Captcha
       Captcha.Internal.Monad
       Captcha.Internal.Monad.Class
+      Captcha.Internal.Request
       Captcha.Internal.Types
   other-modules:
       Paths_captcha_core
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wno-name-shadowing -fno-warn-orphans
+  ghc-options: -Wall -Wno-name-shadowing
   build-depends:
       base >=4.7 && <5
     , bytestring >=0.10.12.0 && <0.11
