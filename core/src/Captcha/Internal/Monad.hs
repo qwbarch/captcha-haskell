@@ -1,6 +1,4 @@
-{-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE DerivingVia #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 module Captcha.Internal.Monad where
@@ -9,6 +7,7 @@ import Control.Lens.TH (makeClassy)
 import Control.Monad.Cont (MonadIO (liftIO))
 import Control.Monad.Reader (MonadReader, ReaderT (ReaderT))
 import Network.Wreq.Session (Session, newSession)
+import UnliftIO (MonadUnliftIO)
 
 -- | Effect providing an environment required to solve captchas.
 newtype Captcha a = Captcha
@@ -19,7 +18,8 @@ newtype Captcha a = Captcha
       Applicative,
       Monad,
       MonadIO,
-      MonadReader CaptchaEnv
+      MonadReader CaptchaEnv,
+      MonadUnliftIO
     )
     via ReaderT CaptchaEnv IO
 

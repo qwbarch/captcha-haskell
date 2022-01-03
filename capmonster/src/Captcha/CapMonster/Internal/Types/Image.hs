@@ -1,5 +1,4 @@
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE InstanceSigs #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE QuasiQuotes #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
@@ -15,21 +14,18 @@ import Control.Lens ((^.))
 import Control.Monad.IO.Class (MonadIO)
 import Control.Monad.Reader (MonadReader)
 import Data.Aeson.QQ (aesonQQ)
-import Data.ByteString.Lazy (ByteString)
-import Network.HTTP.Client (Response)
 import Network.Wreq (defaults)
 
-instance (HasCaptchaEnv r, MonadReader r m, MonadIO m) => CaptchaCtx (ImageCaptcha CapMonster) r m where
-  request :: ImageCaptcha CapMonster -> m (Response ByteString)
-  request captcha = do
-    let payload =
-          [aesonQQ|
-            {
-              clientKey: #{captcha ^. apiKey},
-              task: {
-                type: "ImageToTextTask",
-                body: #{captcha ^. body}
-              }
+instance (HasCaptchaEnv r, MonadReader r m, MonadIO m) => CaptchaCtx CapMonster ImageCaptcha r m where
+  request captcha = post defaults createTaskUrl payload
+    where
+      payload =
+        [aesonQQ|
+          {
+            clientKey: #{captcha ^. apiKey},
+            task: {
+              type: "ImageToTextTask",
+              body: #{captcha ^. body}
             }
-          |]
-    post defaults createTaskUrl payload
+          }
+        |]

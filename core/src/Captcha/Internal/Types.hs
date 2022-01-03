@@ -49,7 +49,7 @@ data Proxy = Proxy
 makeFieldsNoPrefix ''Proxy
 
 -- | Parameters for solving a captcha with text within an image.
-data ImageCaptcha a = ImageCaptcha
+data ImageCaptcha = ImageCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
@@ -64,7 +64,7 @@ data ImageCaptcha a = ImageCaptcha
 makeFieldsNoPrefix ''ImageCaptcha
 
 -- | Parameters for solving a text captcha.
-data TextCaptcha a = TextCaptcha
+data TextCaptcha = TextCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
@@ -79,7 +79,7 @@ data TextCaptcha a = TextCaptcha
 makeFieldsNoPrefix ''TextCaptcha
 
 -- | Parameters for solving Arkose Lab's FunCaptcha.
-data FunCaptcha a = FunCaptcha
+data FunCaptcha = FunCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
@@ -104,7 +104,7 @@ data FunCaptcha a = FunCaptcha
 makeFieldsNoPrefix ''FunCaptcha
 
 -- | Parameters for solving Google's reCAPTCHA v2.
-data ReCaptchaV2 a = ReCaptchaV2
+data ReCaptchaV2 = ReCaptchaV2
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
@@ -131,7 +131,7 @@ data ReCaptchaV2 a = ReCaptchaV2
 makeFieldsNoPrefix ''ReCaptchaV2
 
 -- | Parameters for solving Google's reCAPTCHA v3.
-data ReCaptchaV3 a = ReCaptchaV3
+data ReCaptchaV3 = ReCaptchaV3
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
@@ -158,7 +158,7 @@ data ReCaptchaV3 a = ReCaptchaV3
 makeFieldsNoPrefix ''ReCaptchaV3
 
 -- | Parameters for solving hCaptcha.
-data HCaptcha a = HCaptcha
+data HCaptcha = HCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
@@ -187,7 +187,7 @@ data HCaptcha a = HCaptcha
 makeFieldsNoPrefix ''HCaptcha
 
 -- | Parameters for solving GeeTest.
-data GeeTest a = GeeTest
+data GeeTest = GeeTest
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.

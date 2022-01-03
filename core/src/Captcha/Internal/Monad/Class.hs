@@ -9,20 +9,20 @@ import Data.Text (Text)
 import Network.Wreq (Response)
 
 -- | Abstracts over a resource using the given captcha context.
-class CaptchaCtx ctx r m where
-  -- | Sends a request with the given context.
+class CaptchaCtx api ctx r m where
+  -- | Sends a request to solve the captcha with the given context.
   request :: ctx -> m (Response ByteString)
 
 -- | Abstracts over a captcha solving service.
-class Monad m => MonadCaptcha api m where
+class Monad m => MonadCaptcha api r m where
   -- | An error specific to the captcha solving service.
-  type CaptchaError api m
+  type CaptchaError api r m
 
   -- | Submit a task to be solved by the api service.
-  createTask :: CaptchaCtx ctx r m => ctx -> m (Either (CaptchaError api m) CaptchaId)
+  createTask :: CaptchaCtx api ctx r m => ctx -> m (Either (CaptchaError api r m) CaptchaId)
 
   -- | Attempt to retrieve the answer of the captcha.
-  getTask :: CaptchaId -> m (Either (CaptchaError api m) Text)
+  getTask :: CaptchaId -> m (Either (CaptchaError api r m) Text)
 
   -- |
   -- Solves a captcha by submitting it with 'createTask' and then polling with 'getTask'
@@ -30,7 +30,7 @@ class Monad m => MonadCaptcha api m where
   --
   -- This will poll until the configured timeout duration is past.
   -- Its default value depends on the captcha service.
-  solve :: CaptchaCtx ctx r m => ctx -> m (Either (CaptchaError api m) Text)
+  solve :: CaptchaCtx api ctx r m => ctx -> m (Either (CaptchaError api r m) Text)
 
 -- | Identifier for retrieving a captcha's answer.
 newtype CaptchaId = CaptchaId
