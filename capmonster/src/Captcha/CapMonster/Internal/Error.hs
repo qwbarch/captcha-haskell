@@ -1,8 +1,11 @@
+{-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE StrictData #-}
 
 module Captcha.CapMonster.Internal.Error where
 
+import Control.Exception (Exception)
 import Data.Foldable (find)
 import Data.Text (Text)
 import Network.HTTP.Client (HttpException)
@@ -17,8 +20,16 @@ data CapMonsterError
     --
     -- This error holds the error code, followed by its description.
     UnknownResponseError Text Text
+  | -- |
+    -- An unknown error occurred. Check the message for more details.
+    --
+    -- This should never occur. Please report this issue on github if this happens to you.
+    UnknownError Text
   | -- | An error when sending the http request.
     NetworkError HttpException
+  | -- | The captcha took to long to solve and was timed out.
+    TimeoutError
+  deriving (Show, Exception)
 
 -- | An error code returned by the CapMonster API.
 data CapMonsterErrorCode

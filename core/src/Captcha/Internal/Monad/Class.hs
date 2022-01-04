@@ -1,17 +1,16 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
 
 module Captcha.Internal.Monad.Class where
 
+import Captcha.Internal.Types (HasApiKey, HasPollingInterval, HasTimeoutDuration)
+import Data.Aeson (Value)
 import Data.ByteString.Lazy (ByteString)
 import Data.Text (Text)
 import Network.Wreq (Response)
-
--- | Abstracts over a resource using the given captcha context.
-class CaptchaCtx api ctx r m where
-  -- | Sends a request to solve the captcha with the given context.
-  request :: ctx -> m (Response ByteString)
+import Time (Millisecond, Time)
 
 -- | Abstracts over a captcha solving service.
 class Monad m => MonadCaptcha api r m where
@@ -19,10 +18,22 @@ class Monad m => MonadCaptcha api r m where
   type CaptchaError api r m
 
   -- | Submit a task to be solved by the api service.
-  createTask :: CaptchaCtx api ctx r m => ctx -> m (Either (CaptchaError api r m) CaptchaId)
+  createTask ::
+    CaptchaRequest api ctx r m =>
+    -- | The captcha to be solved.
+    ctx ->
+    -- | Captcha id to be used with 'getTask'.
+    m (Either (CaptchaError api r m) (CaptchaId ctx))
 
   -- | Attempt to retrieve the answer of the captcha.
-  getTask :: CaptchaId -> m (Either (CaptchaError api r m) Text)
+  getTask ::
+    CaptchaResponse api ctx =>
+    -- | The captcha service's API key.
+    Text ->
+    -- | The captcha to check the answer of.
+    CaptchaId ctx ->
+    -- | The captcha's solution.
+    m (Either (CaptchaError api r m) Text)
 
   -- |
   -- Solves a captcha by submitting it with 'createTask' and then polling with 'getTask'
@@ -30,10 +41,34 @@ class Monad m => MonadCaptcha api r m where
   --
   -- This will poll until the configured timeout duration is past.
   -- Its default value depends on the captcha service.
-  solve :: CaptchaCtx api ctx r m => ctx -> m (Either (CaptchaError api r m) Text)
+  solve ::
+    ( CaptchaRequest api ctx r m,
+      CaptchaResponse api ctx,
+      HasApiKey ctx Text,
+      HasPollingInterval ctx (Maybe (Time Millisecond)),
+      HasTimeoutDuration ctx (Maybe (Time Millisecond))
+    ) =>
+    -- | Captcha to be solved.
+    ctx ->
+    -- | The captcha's solution.
+    m (Either (CaptchaError api r m) Text)
+
+-- |
+-- Different captcha services have different request formats.
+-- This abstracts over it and sends the correct HTTP request.
+class CaptchaRequest api ctx r m where
+  -- | Send a request using the given captcha context.
+  request :: ctx -> m (Response ByteString)
+
+-- |
+-- Different captcha services have different response formats.
+-- This abstracts over it and provides the captcha result.
+class CaptchaResponse api ctx where
+  -- | Parse the captcha result from the given json.
+  parseResult :: Value -> Maybe Value
 
 -- | Identifier for retrieving a captcha's answer.
-newtype CaptchaId = CaptchaId
-  { unCaptchaId :: Text
+newtype CaptchaId ctx = CaptchaId
+  { unCaptchaId :: Integer
   }
   deriving (Show, Eq, Ord)

@@ -29,6 +29,7 @@ library
       Captcha.CapMonster.Internal.CapMonster
       Captcha.CapMonster.Internal.Error
       Captcha.CapMonster.Internal.Types.Image
+      Captcha.CapMonster.Internal.Types.ReCaptchaV2
   other-modules:
       Paths_captcha_capmonster
   hs-source-dirs:
@@ -40,17 +41,28 @@ library
     , base >=4.7 && <5
     , bytestring >=0.10.12.0 && <0.11
     , captcha-core ==0.1.*
+    , errors >=2.3.0 && <2.4
+    , extra >=1.7.9 && <1.8
     , http-client >=0.6.4.1 && <0.8
     , lens >=4.19.2 && <5.1
+    , lens-aeson >=1.1.3 && <1.2
     , mtl >=2.2.2 && <2.3
+    , o-clock >=1.2.1 && <1.3
+    , string-interpolate >=0.3.1.1 && <0.4
     , text >=1.2.4.1 && <1.3
+    , time >=1.9.3 && <1.10
+    , transformers >=0.5.6.2 && <0.6
+    , unliftio >=0.2.20 && <0.3
     , wreq >=0.5.3.3 && <0.6
   default-language: Haskell2010
 
 test-suite capmonster-test
   type: exitcode-stdio-1.0
-  main-is: Spec.hs
+  main-is: Main.hs
   other-modules:
+      Captcha.CapMonster
+      Captcha.CapMonster.Test.Image
+      Captcha.CapMonster.Test.ReCaptchaV2
       Paths_captcha_capmonster
   hs-source-dirs:
       test
@@ -62,9 +74,21 @@ test-suite capmonster-test
     , bytestring >=0.10.12.0 && <0.11
     , captcha-capmonster
     , captcha-core ==0.1.*
+    , data-default
+    , errors >=2.3.0 && <2.4
+    , extra >=1.7.9 && <1.8
     , http-client >=0.6.4.1 && <0.8
     , lens >=4.19.2 && <5.1
+    , lens-aeson >=1.1.3 && <1.2
     , mtl >=2.2.2 && <2.3
+    , o-clock >=1.2.1 && <1.3
+    , string-conversions
+    , string-interpolate >=0.3.1.1 && <0.4
+    , tasty
+    , tasty-hunit
     , text >=1.2.4.1 && <1.3
+    , time >=1.9.3 && <1.10
+    , transformers >=0.5.6.2 && <0.6
+    , unliftio >=0.2.20 && <0.3
     , wreq >=0.5.3.3 && <0.6
   default-language: Haskell2010

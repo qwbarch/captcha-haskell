@@ -1,20 +1,28 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE StrictData #-}
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE UndecidableInstances #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
 module Captcha.Internal.Types where
 
+import Control.Lens (view, (^.))
 import Control.Lens.TH (makeFieldsNoPrefix)
+import Data.ByteString.Builder (toLazyByteString)
 import Data.Default (Default (def))
 import Data.Text (Text)
-import Data.Time (DiffTime)
+import qualified Data.Text.Lazy as Lazy
+import Data.Text.Lazy.Encoding (decodeUtf8)
 import GHC.Generics (Generic)
+import Time (Millisecond, Time)
 import Web.Cookie (Cookies)
+import qualified Web.Cookie as Cookie
 
 -- | 'Default' instance for 'Bool' is not defined by default.
 instance Default Bool where
@@ -28,7 +36,7 @@ instance Default ProxyProtocol where
 
 -- | Proxy authentication.
 data ProxyAuth = ProxyAuth
-  { _login :: Text,
+  { _username :: Text,
     _password :: Text
   }
   deriving (Generic, Default, Show)
@@ -37,7 +45,9 @@ makeFieldsNoPrefix ''ProxyAuth
 
 -- | Proxy to be used when solving a captcha.
 data Proxy = Proxy
-  { -- | Protocol of the proxy.
+  { -- | Proxy address.
+    _address :: Text,
+    -- | Protocol of the proxy.
     _protocol :: ProxyProtocol,
     -- | Proxy port.
     _port :: Int,
@@ -53,9 +63,9 @@ data ImageCaptcha = ImageCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
-    _pollingInterval :: Maybe DiffTime,
+    _pollingInterval :: Maybe (Time Millisecond),
     -- | The duration to keep polling for the answer.
-    _timeoutDuration :: Maybe DiffTime,
+    _timeoutDuration :: Maybe (Time Millisecond),
     -- | The image, encoded in base-64.
     _body :: Text
   }
@@ -68,9 +78,9 @@ data TextCaptcha = TextCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
-    _pollingInterval :: Maybe DiffTime,
+    _pollingInterval :: Maybe (Time Millisecond),
     -- | The duration to keep polling for the answer.
-    _timeoutDuration :: Maybe DiffTime,
+    _timeoutDuration :: Maybe (Time Millisecond),
     -- | The text captcha to solve.
     _body :: Text
   }
@@ -83,9 +93,9 @@ data FunCaptcha = FunCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
-    _pollingInterval :: Maybe DiffTime,
+    _pollingInterval :: Maybe (Time Millisecond),
     -- | The duration to keep polling for the answer.
-    _timeoutDuration :: Maybe DiffTime,
+    _timeoutDuration :: Maybe (Time Millisecond),
     -- | Url where the captcha is found.
     _captchaUrl :: Text,
     -- | FunCaptcha's __data-pkey__ value.
@@ -108,9 +118,9 @@ data ReCaptchaV2 = ReCaptchaV2
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
-    _pollingInterval :: Maybe DiffTime,
+    _pollingInterval :: Maybe (Time Millisecond),
     -- | The duration to keep polling for the answer.
-    _timeoutDuration :: Maybe DiffTime,
+    _timeoutDuration :: Maybe (Time Millisecond),
     -- | Url where the captcha is found.
     _captchaUrl :: Text,
     -- | reCAPTCHA v2's __data-sitekey__ value.
@@ -135,9 +145,9 @@ data ReCaptchaV3 = ReCaptchaV3
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
-    _pollingInterval :: Maybe DiffTime,
+    _pollingInterval :: Maybe (Time Millisecond),
     -- | The duration to keep polling for the answer.
-    _timeoutDuration :: Maybe DiffTime,
+    _timeoutDuration :: Maybe (Time Millisecond),
     -- | Url where the captcha is found.
     _captchaUrl :: Text,
     -- | reCAPTCHA v3's __sitekey__ value.
@@ -162,9 +172,9 @@ data HCaptcha = HCaptcha
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
-    _pollingInterval :: Maybe DiffTime,
+    _pollingInterval :: Maybe (Time Millisecond),
     -- | The duration to keep polling for the answer.
-    _timeoutDuration :: Maybe DiffTime,
+    _timeoutDuration :: Maybe (Time Millisecond),
     -- | Url where the captcha is found.
     _captchaUrl :: Text,
     -- | hCaptcha's __data-sitekey__ value.
@@ -191,9 +201,9 @@ data GeeTest = GeeTest
   { -- | The captcha solver's API key.
     _apiKey :: Text,
     -- | The interval to poll for the captcha's answer.
-    _pollingInterval :: Maybe DiffTime,
+    _pollingInterval :: Maybe (Time Millisecond),
     -- | The duration to keep polling for the answer.
-    _timeoutDuration :: Maybe DiffTime,
+    _timeoutDuration :: Maybe (Time Millisecond),
     -- | Url where the captcha is found.
     _captchaUrl :: Text,
     -- | GeeTest's __gt__ value.
@@ -210,3 +220,7 @@ data GeeTest = GeeTest
   deriving (Generic, Default, Show)
 
 makeFieldsNoPrefix ''GeeTest
+
+-- | Render the cookies as a lazy text.
+renderCookies :: HasCookies a Cookies => a -> Lazy.Text
+renderCookies = decodeUtf8 . toLazyByteString . Cookie.renderCookies . view cookies
