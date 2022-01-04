@@ -22,7 +22,7 @@ test _apiKey =
     let captcha =
           def @ReCaptchaV3
             & apiKey .~ _apiKey
-            & captchaUrl .~ "https://2captcha.com/p/recaptcha_v3"
+            & captchaUrl .~ "https://2captcha.com/demo/recaptcha-v3"
             & captchaKey .~ "6LfB5_IbAAAAAMCtsjEHEHKqcB9iQocwwxTiihJu"
         verify result = do
           response <-

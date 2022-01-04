@@ -28,6 +28,7 @@ library
       Captcha
       Captcha.CapMonster.Internal.CapMonster
       Captcha.CapMonster.Internal.Error
+      Captcha.CapMonster.Internal.Types.FunCaptcha
       Captcha.CapMonster.Internal.Types.Image
       Captcha.CapMonster.Internal.Types.ReCaptchaV2
       Captcha.CapMonster.Internal.Types.ReCaptchaV3
@@ -62,6 +63,7 @@ test-suite capmonster-test
   main-is: Main.hs
   other-modules:
       Captcha.CapMonster
+      Captcha.CapMonster.Test.FunCaptcha
       Captcha.CapMonster.Test.Image
       Captcha.CapMonster.Test.ReCaptchaV2
       Captcha.CapMonster.Test.ReCaptchaV3
