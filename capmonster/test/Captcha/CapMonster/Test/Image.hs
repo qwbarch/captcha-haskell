@@ -9,9 +9,8 @@ import Captcha.Internal.Types (HasApiKey (apiKey), HasBody (body), ImageCaptcha)
 import Control.Lens ((&), (.~))
 import Data.Default (Default (def))
 import Data.String.Conversions (cs)
-import Data.Text (toLower)
 import Test.Tasty (TestTree)
-import Test.Tasty.HUnit (testCase, (@?=))
+import Test.Tasty.HUnit (testCase)
 
 test :: ApiKey -> TestTree
 test key =
@@ -22,4 +21,4 @@ test key =
           def @ImageCaptcha
             & apiKey .~ key
             & body .~ captchaBody
-    assertCaptcha captcha ((@?= "td4eva") . toLower)
+    assertCaptcha captcha

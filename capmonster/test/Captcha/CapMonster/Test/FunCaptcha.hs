@@ -19,4 +19,4 @@ test key = do
             & apiKey .~ key
             & captchaUrl .~ "https://api.funcaptcha.com/fc/api/nojs/?pkey=69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC"
             & captchaKey .~ "69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC"
-     in assertCaptcha captcha (const $ pure ())
+     in assertCaptcha captcha

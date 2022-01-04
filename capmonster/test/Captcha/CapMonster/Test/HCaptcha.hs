@@ -19,4 +19,4 @@ test key =
             & apiKey .~ key
             & captchaUrl .~ "https://2captcha.com/demo/hcaptcha"
             & captchaKey .~ "3ceb8624-1970-4e6b-91d5-70317b70b651"
-     in assertCaptcha captcha (const $ pure ())
+     in assertCaptcha captcha

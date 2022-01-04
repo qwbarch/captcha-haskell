@@ -12,10 +12,11 @@
 
 module Captcha.Internal.Types where
 
-import Control.Lens (view, (^.))
+import Control.Lens (preview, view, (^?), _Just)
 import Control.Lens.TH (makeFieldsNoPrefix)
 import Data.ByteString.Builder (toLazyByteString)
 import Data.Default (Default (def))
+import Data.String.Conversions (cs)
 import Data.Text (Text)
 import qualified Data.Text.Lazy as Lazy
 import Data.Text.Lazy.Encoding (decodeUtf8)
@@ -196,31 +197,26 @@ data HCaptcha = HCaptcha
 
 makeFieldsNoPrefix ''HCaptcha
 
--- | Parameters for solving GeeTest.
-data GeeTest = GeeTest
-  { -- | The captcha solver's API key.
-    _apiKey :: Text,
-    -- | The interval to poll for the captcha's answer.
-    _pollingInterval :: Maybe (Time Millisecond),
-    -- | The duration to keep polling for the answer.
-    _timeoutDuration :: Maybe (Time Millisecond),
-    -- | Url where the captcha is found.
-    _captchaUrl :: Text,
-    -- | GeeTest's __gt__ value.
-    _gt :: Text,
-    -- | GeeTest's __challenge__ value.
-    _challenge :: Text,
-    -- | GeeTest's __api_server__ value.
-    _apiServer :: Maybe Text,
-    -- | User agent to be used when solving the cpatcha.
-    _userAgent :: Maybe Text,
-    -- | Proxy to be used when solving the captcha.
-    _proxy :: Maybe Proxy
-  }
-  deriving (Generic, Default, Show)
-
-makeFieldsNoPrefix ''GeeTest
-
 -- | Render the cookies as a lazy text.
 renderCookies :: HasCookies a Cookies => a -> Lazy.Text
 renderCookies = decodeUtf8 . toLazyByteString . Cookie.renderCookies . view cookies
+
+-- | Retrieve the proxy's type as, converted into 'Text'.
+getProxyType :: HasProxy a (Maybe Proxy) => a -> Maybe Text
+getProxyType captcha = cs . show <$> captcha ^? proxy . _Just . protocol
+
+-- | Retrieve the proxy's host address.
+getProxyAddress :: HasProxy a (Maybe Proxy) => a -> Maybe Text
+getProxyAddress = preview $ proxy . _Just . address
+
+-- | Retrieve the proxy's port.
+getProxyPort :: HasProxy a (Maybe Proxy) => a -> Maybe Int
+getProxyPort = preview $ proxy . _Just . port
+
+-- | Retrieve the proxy's authentication username.
+getProxyUsername :: HasProxy a (Maybe Proxy) => a -> Maybe Text
+getProxyUsername = preview $ proxy . _Just . auth . _Just . username
+
+-- | Retrieve the proxy's authentication password.
+getProxyPassword :: HasProxy a (Maybe Proxy) => a -> Maybe Text
+getProxyPassword = preview $ proxy . _Just . auth . _Just . password

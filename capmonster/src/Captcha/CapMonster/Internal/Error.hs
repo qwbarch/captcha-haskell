@@ -59,6 +59,8 @@ data CapMonsterErrorCode
     TooManyRequests
   | -- | The specified domain cannot be solved by CapMonster.
     DomainNotAllowed
+  | -- | The captcha could not be solved due to no available captcha workers.
+    NoSlotAvailable
   deriving (Show, Eq, Ord, Enum, Bounded)
 
 -- | Textual representation of a 'CapMonsterErrorCode'.
@@ -76,6 +78,7 @@ errorCode = \case
   NoSuchMethod -> "ERROR_NO_SUCH_METHOD"
   TooManyRequests -> "ERROR_TOO_MUCH_REQUESTS"
   DomainNotAllowed -> "ERROR_DOMAIN_NOT_ALLOWED"
+  NoSlotAvailable -> "ERROR_NO_SLOT_AVAILABLE"
 
 -- | Parse an error code into its equivalent 'CapMonsterErrorCode'.
 parseError :: Text -> Maybe CapMonsterErrorCode

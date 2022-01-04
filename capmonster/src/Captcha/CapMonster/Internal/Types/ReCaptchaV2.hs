@@ -10,20 +10,18 @@ import Captcha.CapMonster.Internal.CapMonster (CapMonster, createTaskUrl)
 import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaRequest (request), CaptchaResponse (parseResult))
 import Captcha.Internal.Request (post)
-import Captcha.Internal.Types (HasAddress (address), HasApiKey (apiKey), HasAuth (auth), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasDataS (dataS), HasPassword (password), HasPort (port), HasProtocol (protocol), HasProxy (proxy), HasUserAgent (userAgent), HasUsername (username), ReCaptchaV2, renderCookies)
-import Control.Lens (preview, (^.), (^?), _Just)
+import Captcha.Internal.Types (HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasDataS (dataS), HasProxy (proxy), HasUserAgent (userAgent), ReCaptchaV2, getProxyAddress, getProxyPassword, getProxyPort, getProxyType, getProxyUsername, renderCookies)
+import Control.Lens (preview, (^.))
 import Control.Monad.Cont (MonadIO)
 import Control.Monad.Reader (MonadReader)
 import Data.Aeson.Lens (key)
 import Data.Aeson.QQ (aesonQQ)
-import Data.Char (toLower)
-import Data.Text (Text)
+import Data.Text (Text, toLower)
 import Network.Wreq (defaults)
 
 instance (HasCaptchaEnv r, MonadReader r m, MonadIO m) => CaptchaRequest CapMonster ReCaptchaV2 r m where
   request captcha = post defaults createTaskUrl payload
     where
-      fromProxy x = captcha ^? proxy . _Just . x
       payload =
         [aesonQQ|
           { 
@@ -34,11 +32,11 @@ instance (HasCaptchaEnv r, MonadReader r m, MonadIO m) => CaptchaRequest CapMons
               websiteKey: #{captcha ^. captchaKey},
               recaptchaDataSValue: #{captcha ^. dataS},
               userAgent: #{captcha ^. userAgent},
-              proxyType: #{fmap toLower . show <$> fromProxy protocol},
-              proxyAddress: #{fromProxy address},
-              proxyPort: #{fromProxy port},
-              proxyLogin: #{fromProxy $ auth . _Just . username},
-              proxyPassword: #{fromProxy $ auth . _Just . password},
+              proxyType: #{toLower <$> getProxyType captcha},
+              proxyAddress: #{getProxyAddress captcha},
+              proxyPort: #{getProxyPort captcha},
+              proxyLogin: #{getProxyUsername captcha},
+              proxyPassword: #{getProxyPassword captcha},
               cookies: #{renderCookies captcha}
             }
           }

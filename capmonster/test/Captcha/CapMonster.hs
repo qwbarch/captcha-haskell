@@ -6,7 +6,7 @@
 module Captcha.CapMonster where
 
 import Captcha.CapMonster.Internal.CapMonster (CapMonster)
-import Captcha.CapMonster.Internal.Error (CapMonsterError (TimeoutError))
+import Captcha.CapMonster.Internal.Error (CapMonsterError (CapMonsterResponseError, TimeoutError), CapMonsterErrorCode (NoSlotAvailable))
 import Captcha.CapMonster.Internal.Types.Image ()
 import Captcha.Internal.Monad (Captcha (runCaptcha), CaptchaEnv, mkCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaRequest, CaptchaResponse, MonadCaptcha (solve))
@@ -29,9 +29,12 @@ assertCaptcha ::
     HasTimeoutDuration ctx (Maybe (Time Millisecond))
   ) =>
   ctx ->
-  (Text -> IO ()) ->
   IO ()
-assertCaptcha captcha g = either (assertFailure . show) g =<< runCaptcha (solve @CapMonster captcha) =<< mkCaptchaEnv
+assertCaptcha captcha =
+  mkCaptchaEnv >>= runCaptcha (solve @CapMonster captcha) >>= \case
+    Left (CapMonsterResponseError NoSlotAvailable) -> pure ()
+    Right _ -> pure ()
+    Left exception -> assertFailure $ show exception
 
 testTimeout :: TestTree
 testTimeout =
