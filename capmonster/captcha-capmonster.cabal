@@ -30,6 +30,7 @@ library
       Captcha.CapMonster.Internal.Error
       Captcha.CapMonster.Internal.Types.Image
       Captcha.CapMonster.Internal.Types.ReCaptchaV2
+      Captcha.CapMonster.Internal.Types.ReCaptchaV3
   other-modules:
       Paths_captcha_capmonster
   hs-source-dirs:
@@ -63,6 +64,7 @@ test-suite capmonster-test
       Captcha.CapMonster
       Captcha.CapMonster.Test.Image
       Captcha.CapMonster.Test.ReCaptchaV2
+      Captcha.CapMonster.Test.ReCaptchaV3
       Paths_captcha_capmonster
   hs-source-dirs:
       test

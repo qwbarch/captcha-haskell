@@ -102,7 +102,7 @@ instance (HasCaptchaEnv r, MonadReader r m, MonadUnliftIO m) => MonadCaptcha Cap
     handleTimeout (captcha ^. timeoutDuration) . runExceptT $
       ExceptT . pollResult =<< ExceptT (createTask @CapMonster @r @m captcha)
     where
-      handleTimeout (Just duration) f = fromMaybe (Left TimeoutError) <$> timeout (toNum @Microsecond $ duration) f
+      handleTimeout (Just duration) f = fromMaybe (Left TimeoutError) <$> timeout (toNum @Microsecond duration) f
       handleTimeout Nothing f = f
       pollResult captchaId =
         threadDelay (fromMaybe (Time @Millisecond 10_000) (captcha ^. pollingInterval))
