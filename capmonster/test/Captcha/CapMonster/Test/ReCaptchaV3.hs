@@ -8,7 +8,6 @@ import Captcha.CapMonster (ApiKey, assertCaptcha)
 import Captcha.CapMonster.Internal.Types.ReCaptchaV3 ()
 import Captcha.Internal.Types (HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), ReCaptchaV3)
 import Control.Lens ((&), (.~), (^.), (^?))
-import Control.Monad (void)
 import Data.Aeson.Lens (key, _Bool)
 import Data.Aeson.QQ (aesonQQ)
 import Data.Default (Default (def))
@@ -18,7 +17,7 @@ import Test.Tasty.HUnit (assertFailure, testCase, (@?))
 
 test :: ApiKey -> TestTree
 test _apiKey =
-  testCase "ReCaptchaV3" $ do
+  testCase "ReCaptchaV3" $
     let captcha =
           def @ReCaptchaV3
             & apiKey .~ _apiKey
@@ -32,4 +31,4 @@ test _apiKey =
           case response ^? responseBody . key "success" . _Bool of
             Nothing -> assertFailure "Field (success) is missing in response. This test needs to be rewritten."
             Just success -> success @? "Result failed to pass verification."
-    void $ assertCaptcha captcha verify
+     in assertCaptcha captcha verify
