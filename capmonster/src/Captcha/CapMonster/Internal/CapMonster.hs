@@ -52,9 +52,9 @@ parseResponse f response =
   where
     missingResponse =
       [iii|
-          The response body is missing.
-          This is likely due to a change in CapMonster's API and will need to be fixed.
-        |]
+        The response body is missing.
+        This is likely due to a change in CapMonster's API and will need to be fixed.
+      |]
     readError responseBody = do
       body <- responseBody
       code <- body ^? key "errorCode" . _String
