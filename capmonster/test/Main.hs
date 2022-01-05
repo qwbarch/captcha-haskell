@@ -9,8 +9,7 @@ import System.Environment (getEnv)
 import Test.Tasty (defaultMain, testGroup)
 
 main :: IO ()
-main =
-  defaultMain . tests . cs =<< getEnv "CAPMONSTER_API_KEY"
+main = defaultMain . tests . cs =<< getEnv "CAPMONSTER_API_KEY"
   where
     tests apiKey =
       testGroup

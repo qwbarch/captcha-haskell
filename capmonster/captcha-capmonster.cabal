@@ -52,8 +52,6 @@ library
     , o-clock >=1.2.1 && <1.3
     , string-interpolate >=0.3.1.1 && <0.4
     , text >=1.2.4.1 && <1.3
-    , time >=1.9.3 && <1.10
-    , transformers >=0.5.6.2 && <0.6
     , unliftio >=0.2.20 && <0.3
     , wreq >=0.5.3.3 && <0.6
   default-language: Haskell2010
@@ -92,8 +90,6 @@ test-suite capmonster-test
     , tasty
     , tasty-hunit
     , text >=1.2.4.1 && <1.3
-    , time >=1.9.3 && <1.10
-    , transformers >=0.5.6.2 && <0.6
     , unliftio >=0.2.20 && <0.3
     , wreq >=0.5.3.3 && <0.6
   default-language: Haskell2010
