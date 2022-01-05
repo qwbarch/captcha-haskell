@@ -30,6 +30,7 @@ library
       Captcha.TwoCaptcha.Internal.Types.Image
       Captcha.TwoCaptcha.Internal.Types.ReCaptchaV2
       Captcha.TwoCaptcha.Internal.Types.ReCaptchaV3
+      Captcha.TwoCaptcha.Internal.Types.Text
   other-modules:
       Paths_captcha_2captcha
   hs-source-dirs:
@@ -62,6 +63,7 @@ test-suite 2captcha-test
       Captcha.TwoCaptcha.Test.Image
       Captcha.TwoCaptcha.Test.ReCaptchaV2
       Captcha.TwoCaptcha.Test.ReCaptchaV3
+      Captcha.TwoCaptcha.Test.Text
       Paths_captcha_2captcha
   hs-source-dirs:
       test

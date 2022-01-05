@@ -1,6 +1,7 @@
 import qualified Captcha.TwoCaptcha as TwoCaptcha
-import qualified Captcha.TwoCaptcha.Test.Image as Image
+import qualified Captcha.TwoCaptcha.Test.Image as ImageCaptcha
 import qualified Captcha.TwoCaptcha.Test.ReCaptchaV2 as ReCaptchaV2
+import qualified Captcha.TwoCaptcha.Test.Text as TextCaptcha
 import Data.String.Conversions (cs)
 import System.Environment (getEnv)
 import Test.Tasty (defaultMain, testGroup)
@@ -12,6 +13,7 @@ main = defaultMain . tests . cs =<< getEnv "TWOCAPTCHA_API_KEY"
       testGroup
         "2Captcha"
         [ TwoCaptcha.testTimeout,
-          Image.test apiKey,
-          ReCaptchaV2.test apiKey
+          ImageCaptcha.test apiKey,
+          ReCaptchaV2.test apiKey,
+          TextCaptcha.test apiKey
         ]
