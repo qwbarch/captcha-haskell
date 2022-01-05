@@ -16,18 +16,18 @@ module Captcha.TwoCaptcha.Internal.TwoCaptcha where
 import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaId (CaptchaId, unCaptchaId), CaptchaRequest (request), CaptchaResponse (parseResult), MonadCaptcha (CaptchaError, createTask, getTask, solve))
 import Captcha.Internal.Request (get)
-import Captcha.Internal.Types (HasApiKey (apiKey), HasPollingInterval (pollingInterval), HasTimeoutDuration (timeoutDuration))
+import Captcha.Internal.Types (HasApiKey (apiKey), HasPassword (password), HasPollingInterval (pollingInterval), HasPort (port), HasProtocol (protocol), HasProxy (proxy), HasTimeoutDuration (timeoutDuration), HasUsername (username), Proxy (Proxy), getProxyAddress, getProxyPassword, getProxyPort, getProxyUsername)
 import Captcha.TwoCaptcha.Internal.Error (TwoCaptchaError (NetworkError, TimeoutError, TwoCaptchaResponseError, UnknownError), TwoCaptchaErrorCode (CaptchaNotReady), parseError)
 import Control.Arrow (ArrowChoice (left))
 import Control.Error (ExceptT (ExceptT), note, runExceptT)
-import Control.Lens (preview, view, (&), (.~), (^.), (^?))
+import Control.Lens (preview, view, (&), (.~), (^.), (^?), _Just)
 import Control.Monad ((<=<))
 import Control.Monad.Reader (MonadReader)
 import Data.Aeson (Value)
 import Data.Aeson.Lens (key, _Integer, _String, _Value)
 import Data.Bifunctor (Bifunctor (bimap))
 import Data.ByteString.Lazy (ByteString)
-import Data.Maybe (fromMaybe)
+import Data.Maybe (fromMaybe, maybeToList)
 import Data.String.Conversions (cs)
 import Data.String.Interpolate (i, iii)
 import Data.Text (Text)
@@ -112,4 +112,17 @@ instance (HasCaptchaEnv r, MonadReader r m, MonadUnliftIO m) => MonadCaptcha Two
             x -> pure x
 
 instance CaptchaResponse TwoCaptcha ctx where
-  parseResult = Just
+  parseResult = preview $ key "request"
+
+parseProxyType :: HasProxy a (Maybe Proxy) => a -> [Text]
+parseProxyType captcha = maybeToList $ cs . show <$> captcha ^? proxy . _Just . protocol
+
+parseProxy :: HasProxy a (Maybe Proxy) => a -> [Text]
+parseProxy captcha = maybeToList $ do
+  let auth = do
+        username <- getProxyUsername captcha
+        password <- getProxyPassword captcha
+        pure [i|#{username}:#{password}@|]
+  address <- getProxyAddress captcha
+  port <- getProxyPort captcha
+  pure $ fromMaybe mempty auth <> [i|#{address}:#{port}|]

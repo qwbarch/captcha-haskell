@@ -32,7 +32,7 @@ assertCaptcha ::
 assertCaptcha captcha =
   mkCaptchaEnv >>= runCaptcha (solve @TwoCaptcha captcha) >>= \case
     Left (TwoCaptchaResponseError NoSlotAvailable) -> pure ()
-    Right _ -> pure ()
+    Right x -> print x
     Left exception -> assertFailure $ show exception
 
 testTimeout :: TestTree

@@ -12,11 +12,11 @@ import Test.Tasty (TestTree)
 import Test.Tasty.HUnit (testCase)
 
 test :: ApiKey -> TestTree
-test _apiKey =
+test key =
   testCase "ReCaptchaV3" $
     let captcha =
           def @ReCaptchaV3
-            & apiKey .~ _apiKey
+            & apiKey .~ key
             & captchaUrl .~ "https://2captcha.com/demo/recaptcha-v3"
             & captchaKey .~ "6LfB5_IbAAAAAMCtsjEHEHKqcB9iQocwwxTiihJu"
      in assertCaptcha captcha

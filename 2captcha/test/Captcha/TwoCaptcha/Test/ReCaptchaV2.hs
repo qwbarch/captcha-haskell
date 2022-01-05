@@ -1,11 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Captcha.CapMonster.Test.ReCaptchaV2 where
+module Captcha.TwoCaptcha.Test.ReCaptchaV2 where
 
-import Captcha.CapMonster (ApiKey, assertCaptcha)
-import Captcha.CapMonster.Internal.Types.ReCaptchaV2 ()
 import Captcha.Internal.Types (HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), ReCaptchaV2)
+import Captcha.TwoCaptcha (ApiKey, assertCaptcha)
+import Captcha.TwoCaptcha.Internal.Types.ReCaptchaV2 ()
 import Control.Lens ((&), (.~))
 import Data.Default (Default (def))
 import Test.Tasty (TestTree)
