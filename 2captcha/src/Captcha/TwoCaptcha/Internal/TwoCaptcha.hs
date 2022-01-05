@@ -16,9 +16,8 @@ module Captcha.TwoCaptcha.Internal.TwoCaptcha where
 import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaId (CaptchaId, unCaptchaId), CaptchaRequest (request), CaptchaResponse (parseResult), MonadCaptcha (CaptchaError, createTask, getTask, solve))
 import Captcha.Internal.Request (get)
-import Captcha.Internal.Types (HasApiKey (apiKey), HasPassword (password), HasPollingInterval (pollingInterval), HasPort (port), HasProtocol (protocol), HasProxy (proxy), HasTimeoutDuration (timeoutDuration), HasUsername (username), Proxy (Proxy), getProxyAddress, getProxyPassword, getProxyPort, getProxyUsername)
+import Captcha.Internal.Types (HasApiKey (apiKey), HasPollingInterval (pollingInterval), HasProtocol (protocol), HasProxy (proxy), HasTimeoutDuration (timeoutDuration), Proxy, getProxyAddress, getProxyPassword, getProxyPort, getProxyUsername)
 import Captcha.TwoCaptcha.Internal.Error (TwoCaptchaError (NetworkError, TimeoutError, TwoCaptchaResponseError, UnknownError), TwoCaptchaErrorCode (CaptchaNotReady), parseError)
-import Control.Arrow (ArrowChoice (left))
 import Control.Error (ExceptT (ExceptT), note, runExceptT)
 import Control.Lens (preview, view, (&), (.~), (^.), (^?), _Just)
 import Control.Monad ((<=<))
@@ -33,7 +32,7 @@ import Data.String.Interpolate (i, iii)
 import Data.Text (Text)
 import Data.Text.Read (decimal)
 import Network.HTTP.Client (HttpException)
-import Network.Wreq (Response, defaults, param, responseBody)
+import Network.Wreq (Options, Response, defaults, param, responseBody)
 import Time (Microsecond, Millisecond, Time (Time), threadDelay, toNum)
 import UnliftIO (MonadUnliftIO, timeout, try)
 
@@ -126,3 +125,9 @@ parseProxy captcha = maybeToList $ do
   address <- getProxyAddress captcha
   port <- getProxyPort captcha
   pure $ fromMaybe mempty auth <> [i|#{address}:#{port}|]
+
+defaultOptions :: Options
+defaultOptions =
+  defaults
+    & param "json" .~ ["1"]
+    & param "soft_id" .~ ["3283"]
