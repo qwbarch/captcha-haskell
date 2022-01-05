@@ -1,0 +1,35 @@
+name: captcha-2captcha
+version: 0.1.0.0
+github: "qwbarch/captcha-haskell"
+license: MIT
+author: "Edward Yang"
+maintainer: "qwbarch@gmail.com"
+copyright: "2021 Edward Yang"
+
+extra-source-files:
+  - README.md
+  - CHANGELOG.md
+
+description: Please see the README on GitHub at <https://github.com/githubuser/2captcha#readme>
+
+dependencies:
+  - base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  ghc-options:
+    - -Wall
+    - -Wno-name-shadowing
+
+tests:
+  2captcha-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+      - -Wall
+      - -Wno-name-shadowing
+    dependencies:
+      - captcha-2captcha
