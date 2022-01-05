@@ -27,6 +27,7 @@ library
   exposed-modules:
       Captcha.TwoCaptcha.Internal.Error
       Captcha.TwoCaptcha.Internal.TwoCaptcha
+      Captcha.TwoCaptcha.Internal.Types.FunCaptcha
       Captcha.TwoCaptcha.Internal.Types.HCaptcha
       Captcha.TwoCaptcha.Internal.Types.Image
       Captcha.TwoCaptcha.Internal.Types.ReCaptchaV2
@@ -61,6 +62,7 @@ test-suite 2captcha-test
   main-is: Main.hs
   other-modules:
       Captcha.TwoCaptcha
+      Captcha.TwoCaptcha.Test.FunCaptcha
       Captcha.TwoCaptcha.Test.HCaptcha
       Captcha.TwoCaptcha.Test.Image
       Captcha.TwoCaptcha.Test.ReCaptchaV2

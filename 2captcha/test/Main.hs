@@ -1,4 +1,5 @@
 import qualified Captcha.TwoCaptcha as TwoCaptcha
+import qualified Captcha.TwoCaptcha.Test.FunCaptcha as FunCaptcha
 import qualified Captcha.TwoCaptcha.Test.HCaptcha as HCaptcha
 import qualified Captcha.TwoCaptcha.Test.Image as ImageCaptcha
 import qualified Captcha.TwoCaptcha.Test.ReCaptchaV2 as ReCaptchaV2
@@ -19,5 +20,6 @@ main = defaultMain . tests . cs =<< getEnv "TWOCAPTCHA_API_KEY"
           ImageCaptcha.test apiKey,
           ReCaptchaV2.test apiKey,
           ReCaptchaV3.test apiKey,
-          HCaptcha.test apiKey
+          HCaptcha.test apiKey,
+          FunCaptcha.test apiKey
         ]
