@@ -29,7 +29,7 @@ import Data.ByteString.Lazy (ByteString)
 import Data.Maybe (fromMaybe, maybeToList)
 import Data.String.Conversions (cs)
 import Data.String.Interpolate (i)
-import Data.Text (Text)
+import Data.Text (Text, toUpper)
 import Data.Text.Read (decimal)
 import Network.HTTP.Client (HttpException)
 import Network.Wreq (Options, Response, defaults, param, responseBody)
@@ -79,11 +79,10 @@ instance (HasCaptchaEnv r, MonadReader r m, MonadUnliftIO m) => MonadCaptcha Two
     where
       url = "https://2captcha.com/res.php"
       options =
-        defaults
+        defaultOptions
           & param "key" .~ [apiKey]
           & param "id" .~ [cs . show $ unCaptchaId captchaId]
           & param "action" .~ ["get"]
-          & param "json" .~ ["1"]
 
   solve ::
     forall ctx.
@@ -115,9 +114,11 @@ instance (HasCaptchaEnv r, MonadReader r m, MonadUnliftIO m) => MonadCaptcha Two
 instance CaptchaResponse TwoCaptcha ctx where
   parseResult = preview $ key "request"
 
+-- | Parse the proxy type to its textual representation.
 parseProxyType :: HasProxy a (Maybe Proxy) => a -> [Text]
-parseProxyType captcha = maybeToList $ cs . show <$> captcha ^? proxy . _Just . protocol
+parseProxyType captcha = maybeToList $ toUpper . cs . show <$> captcha ^? proxy . _Just . protocol
 
+-- | Parse the proxy into the format: username:password@address:port
 parseProxy :: HasProxy a (Maybe Proxy) => a -> [Text]
 parseProxy captcha = maybeToList $ do
   let auth = do
@@ -128,11 +129,9 @@ parseProxy captcha = maybeToList $ do
   port <- getProxyPort captcha
   pure $ fromMaybe mempty auth <> [i|#{address}:#{port}|]
 
+-- | Default option parameters when making 2Captcha requests.
 defaultOptions :: Options
 defaultOptions =
   defaults
     & param "json" .~ ["1"]
     & param "soft_id" .~ ["3283"]
-
-orEmpty :: Monoid f => Maybe f -> f
-orEmpty = fromMaybe mempty
