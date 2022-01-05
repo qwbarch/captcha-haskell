@@ -41,10 +41,6 @@ import UnliftIO (MonadUnliftIO, timeout, try)
 -- | Used for picking 'MonadCaptcha' instances for CapMonster.
 data CapMonster
 
--- | CapMonster's "create task" HTTP endpoint.
-createTaskUrl :: Text
-createTaskUrl = "https://api.capmonster.cloud/createTask"
-
 -- | Parse the http response into the captcha answer, handling any errors found.
 parseResponse :: (Value -> Maybe Value) -> Either HttpException (Response ByteString) -> Either CapMonsterError Value
 parseResponse f response =
@@ -70,8 +66,9 @@ instance (HasCaptchaEnv r, MonadReader r m, MonadUnliftIO m) => MonadCaptcha Cap
 
   createTask :: forall ctx. CaptchaRequest CapMonster ctx r m => ctx -> m (Either CapMonsterError (CaptchaId ctx))
   createTask captcha =
-    (parseCaptchaId <=< parseResponse (preview $ key "taskId")) <$> try (request @CapMonster @ctx @r @m captcha)
+    (parseCaptchaId <=< parseResponse (preview $ key "taskId")) <$> try (request @CapMonster @ctx @r @m captcha url)
     where
+      url = "https://api.capmonster.cloud/createTask"
       parseCaptchaId captchaId =
         CaptchaId <$> note (UnknownError [i|CaptchaId is not an Integer: #{captchaId}|]) (captchaId ^? _Integer)
 

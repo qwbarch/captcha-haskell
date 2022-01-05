@@ -58,7 +58,12 @@ class Monad m => MonadCaptcha api r m where
 -- This abstracts over it and sends the correct HTTP request.
 class CaptchaRequest api ctx r m where
   -- | Send a request using the given captcha context.
-  request :: ctx -> m (Response ByteString)
+  request ::
+    -- | The captcha to be solved.
+    ctx ->
+    -- | The url to send the request to.
+    Text ->
+    m (Response ByteString)
 
 -- |
 -- Different captcha services have different response formats.

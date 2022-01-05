@@ -6,7 +6,7 @@
 
 module Captcha.CapMonster.Internal.Types.HCaptcha where
 
-import Captcha.CapMonster.Internal.CapMonster (CapMonster, createTaskUrl)
+import Captcha.CapMonster.Internal.CapMonster (CapMonster)
 import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaRequest (request), CaptchaResponse (parseResult))
 import Captcha.Internal.Request (post)
@@ -20,7 +20,7 @@ import Data.Text (Text, toLower)
 import Network.Wreq (defaults)
 
 instance (HasCaptchaEnv r, MonadReader r m, MonadIO m) => CaptchaRequest CapMonster HCaptcha r m where
-  request captcha = post defaults createTaskUrl payload
+  request captcha = flip (post defaults) payload
     where
       payload =
         [aesonQQ|
