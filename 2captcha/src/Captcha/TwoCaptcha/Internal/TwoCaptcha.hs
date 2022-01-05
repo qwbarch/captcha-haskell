@@ -17,7 +17,7 @@ import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaId (CaptchaId, unCaptchaId), CaptchaRequest (request), CaptchaResponse (parseResult), MonadCaptcha (CaptchaError, createTask, getTask, solve))
 import Captcha.Internal.Request (get)
 import Captcha.Internal.Types (HasApiKey (apiKey), HasPollingInterval (pollingInterval), HasProtocol (protocol), HasProxy (proxy), HasTimeoutDuration (timeoutDuration), Proxy, getProxyAddress, getProxyPassword, getProxyPort, getProxyUsername)
-import Captcha.TwoCaptcha.Internal.Error (TwoCaptchaError (NetworkError, TimeoutError, TwoCaptchaResponseError, UnknownError), TwoCaptchaErrorCode (CaptchaNotReady), parseError)
+import Captcha.TwoCaptcha.Internal.Error (TwoCaptchaError (NetworkError, TimeoutError, TwoCaptchaResponseError, UnknownError), TwoCaptchaErrorCode (BadDuplicates, CaptchaNotReady, CaptchaUnsolvable), parseError)
 import Control.Error (ExceptT (ExceptT), note, runExceptT)
 import Control.Lens (preview, view, (&), (.~), (^.), (^?), _Just)
 import Control.Monad ((<=<))
@@ -108,6 +108,10 @@ instance (HasCaptchaEnv r, MonadReader r m, MonadUnliftIO m) => MonadCaptcha Two
           *> getTask @TwoCaptcha @r @m @ctx (captcha ^. apiKey) captchaId
           >>= \case
             Left (TwoCaptchaResponseError CaptchaNotReady) -> pollResult captchaId
+            -- 2Captcha sends this error when users fail enough times.
+            Left (TwoCaptchaResponseError BadDuplicates) -> solve @TwoCaptcha captcha
+            -- 2Captcha sends this error when the captcha isn't solved quick enough.
+            Left (TwoCaptchaResponseError CaptchaUnsolvable) -> solve @TwoCaptcha captcha
             x -> pure x
 
 instance CaptchaResponse TwoCaptcha ctx where
