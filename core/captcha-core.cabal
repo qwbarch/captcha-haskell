@@ -25,7 +25,6 @@ source-repository head
 
 library
   exposed-modules:
-      Captcha
       Captcha.Internal.Monad
       Captcha.Internal.Monad.Class
       Captcha.Internal.Request
