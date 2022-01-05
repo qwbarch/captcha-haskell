@@ -17,10 +17,10 @@ import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaId (CaptchaId, unCaptchaId), CaptchaRequest (request), CaptchaResponse (parseResult), MonadCaptcha (CaptchaError, createTask, getTask, solve))
 import Captcha.Internal.Request (get)
 import Captcha.Internal.Types (HasApiKey (apiKey), HasPollingInterval (pollingInterval), HasProtocol (protocol), HasProxy (proxy), HasTimeoutDuration (timeoutDuration), Proxy, getProxyAddress, getProxyPassword, getProxyPort, getProxyUsername)
-import Captcha.TwoCaptcha.Internal.Error (TwoCaptchaError (NetworkError, TimeoutError, TwoCaptchaResponseError, UnknownError), TwoCaptchaErrorCode (BadDuplicates, CaptchaNotReady, CaptchaUnsolvable), parseError)
+import Captcha.TwoCaptcha.Internal.Error (TwoCaptchaError (NetworkError, TimeoutError, TwoCaptchaResponseError, UnknownError, UnknownResponseError), TwoCaptchaErrorCode (BadDuplicates, CaptchaNotReady, CaptchaUnsolvable), parseError)
 import Control.Error (ExceptT (ExceptT), note, runExceptT)
 import Control.Lens (preview, view, (&), (.~), (^.), (^?), _Just)
-import Control.Monad ((<=<))
+import Control.Monad (liftM2, (<=<))
 import Control.Monad.Reader (MonadReader)
 import Data.Aeson (Value)
 import Data.Aeson.Lens (key, _Integer, _String, _Value)
@@ -28,7 +28,7 @@ import Data.Bifunctor (Bifunctor (bimap))
 import Data.ByteString.Lazy (ByteString)
 import Data.Maybe (fromMaybe, maybeToList)
 import Data.String.Conversions (cs)
-import Data.String.Interpolate (i, iii)
+import Data.String.Interpolate (i)
 import Data.Text (Text)
 import Data.Text.Read (decimal)
 import Network.HTTP.Client (HttpException)
@@ -41,25 +41,23 @@ data TwoCaptcha
 
 -- | Parse the http response into the captcha answer, handling any errors found.
 parseResponse :: (Value -> Maybe Value) -> Either HttpException (Response ByteString) -> Either TwoCaptchaError Value
-parseResponse f response = do
-  body <- parseBody
-  (status, code) <- parseStatus body
-  if status == 0
-    then case parseError code of
-      Just exception -> Left $ TwoCaptchaResponseError exception
-      Nothing -> undefined
-    else note (UnknownError "TODO: WRITE ERROR") (f body)
+parseResponse f response =
+  liftM2 (=<<) adaptError parseStatus =<< parseBody
   where
-    missingResponse =
-      [iii|
-        The response body is missing.
-        This is likely due to a change in 2Captcha's API and will need to be fixed.
-      |]
-    parseStatus body = note (UnknownError "TODO: WRITE ERROR MESSAGE") $ do
+    errorFooter = "This is likely due to a change in 2Captcha's API and will need to be fixed." :: Text
+    missingResponse = [i|The response body is missing. #{errorFooter}|]
+    invalidResponse = [i|Unable to parse 2Captcha response. #{errorFooter}|]
+    parseBody = note (UnknownError missingResponse) =<< bimap NetworkError (preview $ responseBody . _Value) response
+    parseStatus body = note (UnknownError "2Captcha response body is missing a status/request field.") $ do
       status <- body ^? key "status" . _Integer
       code <- body ^? key "request" . _String
-      return (status, code)
-    parseBody = note (UnknownError missingResponse) =<< bimap NetworkError (preview $ responseBody . _Value) response
+      return (status, code, fromMaybe mempty (body ^? key "error_text" . _String))
+    adaptError body (status, code, errorText)
+      | status == 0 =
+        case parseError code of
+          Just exception -> Left $ TwoCaptchaResponseError exception
+          Nothing -> Left $ UnknownResponseError code errorText
+      | otherwise = note (UnknownError invalidResponse) (f body)
 
 instance (HasCaptchaEnv r, MonadReader r m, MonadUnliftIO m) => MonadCaptcha TwoCaptcha r m where
   type CaptchaError TwoCaptcha r m = TwoCaptchaError
@@ -135,3 +133,6 @@ defaultOptions =
   defaults
     & param "json" .~ ["1"]
     & param "soft_id" .~ ["3283"]
+
+orEmpty :: Monoid f => Maybe f -> f
+orEmpty = fromMaybe mempty

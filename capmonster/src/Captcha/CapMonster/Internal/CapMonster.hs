@@ -44,7 +44,7 @@ data CapMonster
 -- | Parse the http response into the captcha answer, handling any errors found.
 parseResponse :: (Value -> Maybe Value) -> Either HttpException (Response ByteString) -> Either CapMonsterError Value
 parseResponse f response =
-  parseBody >>= \body -> maybe (Left . parseError $ Just body) Right (f body)
+  (flip maybe Right . Left . parseError . Just) <*> f =<< parseBody
   where
     missingResponse =
       [iii|
