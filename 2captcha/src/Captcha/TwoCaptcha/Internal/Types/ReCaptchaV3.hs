@@ -8,7 +8,7 @@ module Captcha.TwoCaptcha.Internal.Types.ReCaptchaV3 where
 import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaRequest (request))
 import Captcha.Internal.Request (post)
-import Captcha.Internal.Types (HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasMinScore (minScore), ReCaptchaV3)
+import Captcha.Internal.Types (HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasMinScore (minScore), ReCaptchaV3)
 import Captcha.TwoCaptcha.Internal.TwoCaptcha (TwoCaptcha, defaultOptions)
 import Control.Lens ((&), (.~), (^.))
 import Control.Monad.Cont (MonadIO)
@@ -22,8 +22,8 @@ instance (HasCaptchaEnv r, MonadReader r m, MonadIO m) => CaptchaRequest TwoCapt
     where
       options =
         defaultOptions
-          & param "json" .~ ["1"]
-          & param "key" .~ ["userrecaptcha"]
+          & param "key" .~ [captcha ^. apiKey]
+          & param "method" .~ ["userrecaptcha"]
           & param "version" .~ ["v3"]
           & param "googlekey" .~ [captcha ^. captchaKey]
           & param "pageurl" .~ [captcha ^. captchaUrl]

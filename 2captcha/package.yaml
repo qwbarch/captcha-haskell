@@ -38,7 +38,7 @@ library:
 
 tests:
   2captcha-test:
-    main: Test.hs
+    main: Main.hs
     source-dirs: test
     ghc-options:
       - -threaded

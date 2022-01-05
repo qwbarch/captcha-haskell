@@ -27,6 +27,7 @@ library
   exposed-modules:
       Captcha.TwoCaptcha.Internal.Error
       Captcha.TwoCaptcha.Internal.TwoCaptcha
+      Captcha.TwoCaptcha.Internal.Types.HCaptcha
       Captcha.TwoCaptcha.Internal.Types.Image
       Captcha.TwoCaptcha.Internal.Types.ReCaptchaV2
       Captcha.TwoCaptcha.Internal.Types.ReCaptchaV3
@@ -57,9 +58,10 @@ library
 
 test-suite 2captcha-test
   type: exitcode-stdio-1.0
-  main-is: Test.hs
+  main-is: Main.hs
   other-modules:
       Captcha.TwoCaptcha
+      Captcha.TwoCaptcha.Test.HCaptcha
       Captcha.TwoCaptcha.Test.Image
       Captcha.TwoCaptcha.Test.ReCaptchaV2
       Captcha.TwoCaptcha.Test.ReCaptchaV3
