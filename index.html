@@ -91,8 +91,48 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <div class="page-content row">
 <div class="small-12 large-9 column" id="docs">
 <h1><a href="#captcha-haskell" name="captcha-haskell" class="anchor"><span class="anchor-link"></span></a>captcha-haskell</h1>
+<h2><a href="#overview" name="overview" class="anchor"><span class="anchor-link"></span></a>Overview</h2>
+<p>captcha-haskell is an opinionated package for integrating a variety of captcha solving service.<br/>This package heavily uses the <a href="https://hackage.haskell.org/package/lens">lens</a> package as shown in the below example.<br/>An mtl-style typeclass is provided, allowing you to use your own monad transformer stack.<br/>In order to fit a common interface between captcha solving services, not all captcha types are supported.<br/>If the package is missing a captcha type you&rsquo;d like to use, consider opening an <a href="https://github.com/qwbarch/captcha-haskell/issues">issue</a>.</p>
+<h2><a href="#quick-example" name="quick-example" class="anchor"><span class="anchor-link"></span></a>Quick example</h2>
+<p>Here is a minimal example to solve reCAPTCHA v2 using <a href="https://2captcha.com">2Captcha</a>.</p>
+<pre class="prettyprint"><code class="language-haskell">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), MonadCaptcha (solve), ReCaptchaV2, mkCaptchaEnv)
+import Captcha.TwoCaptcha (TwoCaptcha)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~))
+import Data.Default (Default (def))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @ReCaptchaV2
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; captchaUrl .~ &quot;https://2captcha.com/demo/recaptcha-v2&quot;
+          &amp; captchaKey .~ &quot;6LeIxboZAAAAAFQy7d8GPzgRZu2bV0GwKS8ue_cH&quot;
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @TwoCaptcha captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception
+</code></pre>
 </div>
 <div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="index.html#captcha-haskell" class="header">captcha-haskell</a>
+  <ul>
+    <li><a href="index.html#overview" class="header">Overview</a></li>
+    <li><a href="index.html#quick-example" class="header">Quick example</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
 </div>
 </div>
 
