@@ -23,7 +23,7 @@ instance Default Bool where
   def = False
 
 -- | Proxy protocol.
-data ProxyProtocol = Http | Https | Sock4 | Socks5 deriving (Show)
+data ProxyProtocol = Http | Https | Socks4 | Socks5 deriving (Show)
 
 instance Default ProxyProtocol where
   def = Http
