@@ -8,7 +8,11 @@ lazy val root = (project in file("."))
   )
   .enablePlugins(ParadoxPlugin)
   .enablePlugins(ParadoxSitePlugin)
+  .enablePlugins(GitHubPagesPlugin)
   .settings(
     scalacOptions := Nil,
-    paradoxTheme := Some(builtinParadoxTheme("generic"))
+    paradoxTheme := Some(builtinParadoxTheme("generic")),
+    gitHubPagesOrgName := "qwbarch",
+    gitHubPagesRepoName := "captcha-haskell",
+    gitHubPagesSiteDir := baseDirectory.value / "target/site"
   )
