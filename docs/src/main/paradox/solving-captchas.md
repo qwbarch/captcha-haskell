@@ -129,3 +129,36 @@ CapMonster
 
 CapMonster (Full)
 : @@snip [ReCaptchaV3.hs](/src/main/resources/examples/capmonster/full/ReCaptchaV3.hs)
+
+## HCaptcha
+
+| Name            | Type                     | Description                                          |
+|-----------------|--------------------------|------------------------------------------------------|
+| apiKey          | Text                     | API key for captcha service                          |
+| invisible       | Bool                     | Is the captcha using the invisible variant?          |
+| captchaUrl      | Text                     | Url where the captcha is found                       |
+| captchaKey      | Text                     | hCaptcha's __data-sitekey__ value                    |
+| rqData          | Maybe Text               | Custom data used in some implementations of hCaptcha |
+| userAgent       | Maybe Text               | User agent to be used when solving the captcha       |
+| proxy           | Maybe Proxy              | Proxy to be used when solving the captcha            |
+| cookies         | Cookies                  | Cookies to be used when solving the captcha          |
+| pollingInterval | Maybe (Time Millisecond) | Interval to poll for the captcha's answer            |
+| timeoutDuration | Maybe (Time Millisecond) | Max timeout when solving captchas                    |
+
+@@@ note
+
+If the __rqData__ field is used, you must provide a matching __userAgent__.
+
+@@@
+
+2Captcha
+: @@snip [HCaptcha.hs](/src/main/resources/examples/2captcha/minimal/HCaptcha.hs)
+
+CapMonster
+: @@snip [HCaptcha.hs](/src/main/resources/examples/capmonster/minimal/HCaptcha.hs)
+
+2Captcha (Full)
+: @@snip [HCaptcha.hs](/src/main/resources/examples/2captcha/full/HCaptcha.hs)
+
+CapMonster (Full)
+: @@snip [HCaptcha.hs](/src/main/resources/examples/capmonster/full/HCaptcha.hs)
