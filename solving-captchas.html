@@ -339,12 +339,12 @@ main = do
     <tr>
       <td>captchaKey </td>
       <td>Text </td>
-      <td>FunCaptcha&rsquo;s <strong>data-pkey</strong> value. </td>
+      <td>FunCaptcha&rsquo;s <strong>data-pkey</strong> value </td>
     </tr>
     <tr>
       <td>serviceUrl </td>
       <td>Maybe Text </td>
-      <td>FunCaptcha&rsquo;s <strong>surl</strong> value. </td>
+      <td>FunCaptcha&rsquo;s <strong>surl</strong> value </td>
     </tr>
     <tr>
       <td>userAgent </td>
@@ -513,12 +513,12 @@ main = do
     <tr>
       <td>captchaKey </td>
       <td>Text </td>
-      <td>reCAPTCHA v2&rsquo;s <strong>data-sitekey</strong> value. </td>
+      <td>reCAPTCHA v2&rsquo;s <strong>data-sitekey</strong> value </td>
     </tr>
     <tr>
       <td>dataS </td>
       <td>Maybe Text </td>
-      <td>reCAPTCHA&rsquo;s v2&rsquo;s <strong>data-s</strong> value. </td>
+      <td>reCAPTCHA v2&rsquo;s <strong>data-s</strong> value </td>
     </tr>
     <tr>
       <td>userAgent </td>
@@ -661,6 +661,182 @@ main = do
     Right result -&gt; print result
     Left exception -&gt; throw exception</code></pre></dd>
 </dl>
+<h2><a href="#recaptchav3" name="recaptchav3" class="anchor"><span class="anchor-link"></span></a>ReCaptchaV3</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name </th>
+      <th>Type </th>
+      <th>Description </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>apiKey </td>
+      <td>Text </td>
+      <td>API key for captcha service </td>
+    </tr>
+    <tr>
+      <td>minScore </td>
+      <td>Double </td>
+      <td>reCAPTCHAV3&rsquo;s minimum score </td>
+    </tr>
+    <tr>
+      <td>captchaUrl </td>
+      <td>Text </td>
+      <td>Url where the captcha is found </td>
+    </tr>
+    <tr>
+      <td>captchaKey </td>
+      <td>Text </td>
+      <td>reCAPTCHA v3&rsquo;s <strong>sitekey</strong> value </td>
+    </tr>
+    <tr>
+      <td>action </td>
+      <td>Maybe Text </td>
+      <td>reCAPTCHA v3&rsquo;s <strong>action</strong> value </td>
+    </tr>
+    <tr>
+      <td>userAgent </td>
+      <td>Maybe Text </td>
+      <td>User agent to be used when solving the captcha </td>
+    </tr>
+    <tr>
+      <td>proxy </td>
+      <td>Maybe Proxy </td>
+      <td>Proxy to be used when solving the captcha </td>
+    </tr>
+    <tr>
+      <td>cookies </td>
+      <td>Cookies </td>
+      <td>Cookies to be used when solving the captcha </td>
+    </tr>
+    <tr>
+      <td>pollingInterval </td>
+      <td>Maybe (Time Millisecond) </td>
+      <td>Interval to poll for the captcha&rsquo;s answer </td>
+    </tr>
+    <tr>
+      <td>timeoutDuration </td>
+      <td>Maybe (Time Millisecond) </td>
+      <td>Max timeout when solving captchas </td>
+    </tr>
+  </tbody>
+</table>
+<dl>
+  <dt>2Captcha</dt>
+  <dd>
+  <pre class="prettyprint"><button class="snippet-button copy-snippet" title="Copy snippet to clipboard">copy</button><code class="language-hs">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), MonadCaptcha (solve), ReCaptchaV3, mkCaptchaEnv)
+import Captcha.TwoCaptcha (TwoCaptcha)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~))
+import Data.Default (Default (def))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @ReCaptchaV3
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; captchaUrl .~ &quot;https://2captcha.com/demo/recaptcha-v3&quot;
+          &amp; captchaKey .~ &quot;6LfB5_IbAAAAAMCtsjEHEHKqcB9iQocwwxTiihJu&quot;
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @TwoCaptcha captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception</code></pre></dd>
+  <dt>CapMonster</dt>
+  <dd>
+  <pre class="prettyprint"><button class="snippet-button copy-snippet" title="Copy snippet to clipboard">copy</button><code class="language-hs">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), MonadCaptcha (solve), ReCaptchaV3, mkCaptchaEnv)
+import Captcha.CapMonster (CapMonster)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~))
+import Data.Default (Default (def))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @ReCaptchaV3
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; captchaUrl .~ &quot;https://2captcha.com/demo/recaptcha-v3&quot;
+          &amp; captchaKey .~ &quot;6LfB5_IbAAAAAMCtsjEHEHKqcB9iQocwwxTiihJu&quot;
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @CapMonster captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception</code></pre></dd>
+  <dt>2Captcha (Full)
+  </dt>
+  <dd>
+  <pre class="prettyprint"><button class="snippet-button copy-snippet" title="Copy snippet to clipboard">copy</button><code class="language-hs">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE NumericUnderscores #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), HasAction (action), HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasCookies (cookies), HasMinScore (minScore), HasPollingInterval (pollingInterval), HasProxy (proxy), HasTimeoutDuration (timeoutDuration), HasUserAgent (userAgent), MonadCaptcha (solve), Proxy (Proxy), ProxyAuth (ProxyAuth), ProxyProtocol (Http), ReCaptchaV3, mkCaptchaEnv)
+import Captcha.TwoCaptcha (TwoCaptcha)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~), (?~))
+import Data.Default (Default (def))
+import Time (Time (Time))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @ReCaptchaV3
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; captchaUrl .~ &quot;https://2captcha.com/demo/recaptcha-v3&quot;
+          &amp; captchaKey .~ &quot;6LfB5_IbAAAAAMCtsjEHEHKqcB9iQocwwxTiihJu&quot;
+          &amp; minScore .~ 0.1
+          &amp; cookies .~ [(&quot;cookie_key&quot;, &quot;cookie_value&quot;)]
+          &amp; action ?~ &quot;demo action&quot;
+          &amp; userAgent ?~ &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1&quot;
+          &amp; proxy ?~ Proxy &quot;proxy_address&quot; Http 1234 (Just $ ProxyAuth &quot;username&quot; &quot;password&quot;)
+          &amp; pollingInterval ?~ Time 5000
+          &amp; timeoutDuration ?~ Time 60_000
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @TwoCaptcha captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception</code></pre></dd>
+  <dt>CapMonster (Full)
+  </dt>
+  <dd>
+  <pre class="prettyprint"><button class="snippet-button copy-snippet" title="Copy snippet to clipboard">copy</button><code class="language-hs">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE NumericUnderscores #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), HasAction (action), HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasCookies (cookies), HasMinScore (minScore), HasPollingInterval (pollingInterval), HasProxy (proxy), HasTimeoutDuration (timeoutDuration), HasUserAgent (userAgent), MonadCaptcha (solve), Proxy (Proxy), ProxyAuth (ProxyAuth), ProxyProtocol (Http), ReCaptchaV3, mkCaptchaEnv)
+import Captcha.CapMonster (CapMonster)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~), (?~))
+import Data.Default (Default (def))
+import Time (Time (Time))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @ReCaptchaV3
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; captchaUrl .~ &quot;https://2captcha.com/demo/recaptcha-v3&quot;
+          &amp; captchaKey .~ &quot;6LfB5_IbAAAAAMCtsjEHEHKqcB9iQocwwxTiihJu&quot;
+          &amp; minScore .~ 0.1
+          &amp; cookies .~ [(&quot;cookie_key&quot;, &quot;cookie_value&quot;)]
+          &amp; action ?~ &quot;demo action&quot;
+          &amp; userAgent ?~ &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1&quot;
+          &amp; proxy ?~ Proxy &quot;proxy_address&quot; Http 1234 (Just $ ProxyAuth &quot;username&quot; &quot;password&quot;)
+          &amp; pollingInterval ?~ Time 5000
+          &amp; timeoutDuration ?~ Time 60_000
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @CapMonster captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception</code></pre></dd>
+</dl>
 </div>
 <div class="large-3 show-for-large column" data-sticky-container>
 <nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
@@ -674,6 +850,7 @@ main = do
     <li><a href="solving-captchas.html#textcaptcha" class="header">TextCaptcha</a></li>
     <li><a href="solving-captchas.html#funcaptcha" class="header">FunCaptcha</a></li>
     <li><a href="solving-captchas.html#recaptchav2" class="header">ReCaptchaV2</a></li>
+    <li><a href="solving-captchas.html#recaptchav3" class="header">ReCaptchaV3</a></li>
   </ul></li>
 </ul>
 </div>
