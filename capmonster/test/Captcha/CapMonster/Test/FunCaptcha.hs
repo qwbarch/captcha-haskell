@@ -17,6 +17,6 @@ test key = do
     let captcha =
           def @FunCaptcha
             & apiKey .~ key
-            & captchaUrl .~ "https://api.funcaptcha.com/fc/api/nojs/?pkey=69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC"
+            & captchaUrl .~ "https://api.funcaptcha.com/fc/api/nojs"
             & captchaKey .~ "69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC"
      in assertCaptcha captcha
