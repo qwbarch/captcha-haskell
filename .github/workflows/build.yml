@@ -17,8 +17,10 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Build GitHub Pages
+      working-directory: docs
       run: sbt clean makeSite
     - name: Publish GitHub Pages
+      working-directory: docs
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: sbt publishToGitHubPages
