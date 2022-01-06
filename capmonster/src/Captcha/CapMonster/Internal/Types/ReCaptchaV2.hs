@@ -6,11 +6,12 @@
 
 module Captcha.CapMonster.Internal.Types.ReCaptchaV2 where
 
-import Captcha.CapMonster.Internal.CapMonster (CapMonster)
+import Captcha.CapMonster.Internal (CapMonster)
+import Captcha.Internal (getProxyAddress, getProxyPassword, getProxyPort, getProxyType, getProxyUsername, renderCookies)
 import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaRequest (request), CaptchaResponse (parseResult))
 import Captcha.Internal.Request (post)
-import Captcha.Internal.Types (HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasDataS (dataS), HasProxy (proxy), HasUserAgent (userAgent), ReCaptchaV2, getProxyAddress, getProxyPassword, getProxyPort, getProxyType, getProxyUsername, renderCookies)
+import Captcha.Internal.Types (HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasDataS (dataS), HasProxy (proxy), HasUserAgent (userAgent), ReCaptchaV2)
 import Control.Lens (preview, (^.))
 import Control.Monad.Cont (MonadIO)
 import Control.Monad.Reader (MonadReader)

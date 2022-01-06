@@ -6,7 +6,7 @@
 
 module Captcha.CapMonster.Internal.Types.ReCaptchaV3 where
 
-import Captcha.CapMonster.Internal.CapMonster (CapMonster)
+import Captcha.CapMonster.Internal (CapMonster)
 import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaRequest (request), CaptchaResponse (parseResult))
 import Captcha.Internal.Request (post)

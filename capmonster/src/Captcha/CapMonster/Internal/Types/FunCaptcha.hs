@@ -6,11 +6,12 @@
 
 module Captcha.CapMonster.Internal.Types.FunCaptcha where
 
-import Captcha.CapMonster.Internal.CapMonster (CapMonster)
+import Captcha.CapMonster.Internal (CapMonster)
+import Captcha.Internal (getProxyAddress, getProxyPassword, getProxyPort, getProxyType, getProxyUsername, renderCookies)
 import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaRequest (request), CaptchaResponse (parseResult))
 import Captcha.Internal.Request (post)
-import Captcha.Internal.Types (FunCaptcha, HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasProxy (proxy), HasServiceUrl (serviceUrl), HasUserAgent (userAgent), getProxyAddress, getProxyPassword, getProxyPort, getProxyType, getProxyUsername, renderCookies)
+import Captcha.Internal.Types (FunCaptcha, HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasProxy (proxy), HasServiceUrl (serviceUrl), HasUserAgent (userAgent))
 import Control.Lens (preview, (^.))
 import Control.Monad.Cont (MonadIO)
 import Control.Monad.Reader (MonadReader)
@@ -39,8 +40,7 @@ instance (HasCaptchaEnv r, MonadReader r m, MonadIO m) => CaptchaRequest CapMons
               proxyPassword: #{getProxyPassword captcha},
               cookies: #{renderCookies captcha}
             }
-          }
-        |]
+          } |]
 
 instance CaptchaResponse CapMonster FunCaptcha where
   parseResult = preview $ key "solution" . key "token"

@@ -5,7 +5,7 @@
 
 module Captcha.CapMonster where
 
-import Captcha.CapMonster.Internal.CapMonster (CapMonster)
+import Captcha.CapMonster.Internal (CapMonster)
 import Captcha.CapMonster.Internal.Error (CapMonsterError (CapMonsterResponseError, TimeoutError), CapMonsterErrorCode (NoSlotAvailable))
 import Captcha.CapMonster.Internal.Types.Image ()
 import Captcha.Internal.Monad (Captcha (runCaptcha), CaptchaEnv, mkCaptchaEnv)

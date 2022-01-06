@@ -25,8 +25,9 @@ source-repository head
 
 library
   exposed-modules:
+      Captcha.TwoCaptcha
+      Captcha.TwoCaptcha.Internal
       Captcha.TwoCaptcha.Internal.Error
-      Captcha.TwoCaptcha.Internal.TwoCaptcha
       Captcha.TwoCaptcha.Internal.Types.FunCaptcha
       Captcha.TwoCaptcha.Internal.Types.HCaptcha
       Captcha.TwoCaptcha.Internal.Types.Image

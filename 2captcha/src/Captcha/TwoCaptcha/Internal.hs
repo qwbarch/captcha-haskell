@@ -11,12 +11,13 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Captcha.TwoCaptcha.Internal.TwoCaptcha where
+module Captcha.TwoCaptcha.Internal where
 
+import Captcha.Internal (getProxyAddress, getProxyPassword, getProxyPort, getProxyUsername)
 import Captcha.Internal.Monad (HasCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaId (CaptchaId, unCaptchaId), CaptchaRequest (request), CaptchaResponse (parseResult), MonadCaptcha (CaptchaError, createTask, getTask, solve))
 import Captcha.Internal.Request (get)
-import Captcha.Internal.Types (HasApiKey (apiKey), HasPollingInterval (pollingInterval), HasProtocol (protocol), HasProxy (proxy), HasTimeoutDuration (timeoutDuration), Proxy, getProxyAddress, getProxyPassword, getProxyPort, getProxyUsername)
+import Captcha.Internal.Types (HasApiKey (apiKey), HasPollingInterval (pollingInterval), HasProtocol (protocol), HasProxy (proxy), HasTimeoutDuration (timeoutDuration), Proxy)
 import Captcha.TwoCaptcha.Internal.Error (TwoCaptchaError (NetworkError, TimeoutError, TwoCaptchaResponseError, UnknownError, UnknownResponseError), TwoCaptchaErrorCode (BadDuplicates, CaptchaNotReady, CaptchaUnsolvable), parseError)
 import Control.Error (ExceptT (ExceptT), note, runExceptT)
 import Control.Lens (preview, view, (&), (.~), (^.), (^?), _Just)

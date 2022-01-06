@@ -8,8 +8,8 @@ module Captcha.TwoCaptcha where
 import Captcha.Internal.Monad (Captcha (runCaptcha), CaptchaEnv, mkCaptchaEnv)
 import Captcha.Internal.Monad.Class (CaptchaRequest, CaptchaResponse, MonadCaptcha (solve))
 import Captcha.Internal.Types
+import Captcha.TwoCaptcha.Internal (TwoCaptcha)
 import Captcha.TwoCaptcha.Internal.Error (TwoCaptchaError (TimeoutError, TwoCaptchaResponseError), TwoCaptchaErrorCode (NoSlotAvailable))
-import Captcha.TwoCaptcha.Internal.TwoCaptcha (TwoCaptcha)
 import Captcha.TwoCaptcha.Internal.Types.Image ()
 import Control.Lens ((&), (?~))
 import Data.Default (Default (def))

@@ -10,7 +10,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Captcha.CapMonster.Internal.CapMonster where
+module Captcha.CapMonster.Internal where
 
 import Captcha.CapMonster.Internal.Error (CapMonsterError (CapMonsterResponseError, NetworkError, TimeoutError, UnknownError, UnknownResponseError), CapMonsterErrorCode (CaptchaNotReady))
 import qualified Captcha.CapMonster.Internal.Error as CapMonsterError

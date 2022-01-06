@@ -25,7 +25,8 @@ source-repository head
 
 library
   exposed-modules:
-      Captcha.CapMonster.Internal.CapMonster
+      Captcha.CapMonster
+      Captcha.CapMonster.Internal
       Captcha.CapMonster.Internal.Error
       Captcha.CapMonster.Internal.Types.FunCaptcha
       Captcha.CapMonster.Internal.Types.HCaptcha

@@ -1,7 +1,6 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE StrictData #-}
@@ -12,18 +11,12 @@
 
 module Captcha.Internal.Types where
 
-import Control.Lens (preview, view, (^?), _Just)
 import Control.Lens.TH (makeFieldsNoPrefix)
-import Data.ByteString.Builder (toLazyByteString)
 import Data.Default (Default (def))
-import Data.String.Conversions (cs)
 import Data.Text (Text)
-import qualified Data.Text.Lazy as Lazy
-import Data.Text.Lazy.Encoding (decodeUtf8)
 import GHC.Generics (Generic)
 import Time (Millisecond, Time)
 import Web.Cookie (Cookies)
-import qualified Web.Cookie as Cookie
 
 -- | 'Default' instance for 'Bool' is not defined by default.
 instance Default Bool where
@@ -196,27 +189,3 @@ data HCaptcha = HCaptcha
   deriving (Show, Generic, Default)
 
 makeFieldsNoPrefix ''HCaptcha
-
--- | Render the cookies as a lazy text.
-renderCookies :: HasCookies a Cookies => a -> Lazy.Text
-renderCookies = decodeUtf8 . toLazyByteString . Cookie.renderCookies . view cookies
-
--- | Retrieve the proxy's type as, converted into 'Text'.
-getProxyType :: HasProxy a (Maybe Proxy) => a -> Maybe Text
-getProxyType captcha = cs . show <$> captcha ^? proxy . _Just . protocol
-
--- | Retrieve the proxy's host address.
-getProxyAddress :: HasProxy a (Maybe Proxy) => a -> Maybe Text
-getProxyAddress = preview $ proxy . _Just . address
-
--- | Retrieve the proxy's port.
-getProxyPort :: HasProxy a (Maybe Proxy) => a -> Maybe Int
-getProxyPort = preview $ proxy . _Just . port
-
--- | Retrieve the proxy's authentication username.
-getProxyUsername :: HasProxy a (Maybe Proxy) => a -> Maybe Text
-getProxyUsername = preview $ proxy . _Just . auth . _Just . username
-
--- | Retrieve the proxy's authentication password.
-getProxyPassword :: HasProxy a (Maybe Proxy) => a -> Maybe Text
-getProxyPassword = preview $ proxy . _Just . auth . _Just . password
