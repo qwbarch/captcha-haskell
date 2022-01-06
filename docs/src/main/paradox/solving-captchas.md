@@ -49,3 +49,29 @@ CapMonster (Full)
 
 2Captcha (Full)
 : @@snip [TextCaptcha.hs](/src/main/paradox/examples/2captcha/full/TextCaptcha.hs)
+
+## FunCaptcha
+
+| Name            | Type                     | Description                                    |
+|-----------------|--------------------------|------------------------------------------------|
+| apiKey          | Text                     | API key for captcha service                    |
+| captchaUrl      | Text                     | Url where the captcha is found                 |
+| captchaKey      | Text                     | FunCaptcha's __data-pkey__ value.              |
+| serviceUrl      | Maybe Text               | FunCaptcha's __surl__ value.                   |
+| userAgent       | Maybe Text               | User agent to be used when solving the captcha |
+| proxy           | Maybe Proxy              | Proxy to be used when solving the captcha      |
+| cookies         | Cookies                  | Cookies to be used when solving the captcha    |
+| pollingInterval | Maybe (Time Millisecond) | Interval to poll for the captcha's answer      |
+| timeoutDuration | Maybe (Time Millisecond) | Max timeout when solving captchas              |
+
+2Captcha
+: @@snip [FunCaptcha.hs](/src/main/paradox/examples/2captcha/minimal/FunCaptcha.hs)
+
+CapMonster
+: @@snip [FunCaptcha.hs](/src/main/paradox/examples/capmonster/minimal/FunCaptcha.hs)
+
+2Captcha (Full)
+: @@snip [FunCaptcha.hs](/src/main/paradox/examples/2captcha/full/FunCaptcha.hs)
+
+CapMonster (Full)
+: @@snip [FunCaptcha.hs](/src/main/paradox/examples/capmonster/full/FunCaptcha.hs)
