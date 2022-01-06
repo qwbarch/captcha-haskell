@@ -101,7 +101,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <h1><a href="#solving-captchas" name="solving-captchas" class="anchor"><span class="anchor-link"></span></a>Solving captchas</h1>
 <p>By default, the <code>solve</code> function polls at an interval of 10 seconds, and a timeout is not enforced.<br/>This can be configured for any captcha using the <code>pollingInterval</code> and <code>timeoutDuration</code> lenses.<br/>If you need any time-conversion functions, use the <a href="https://hackage.haskell.org/package/o-clock">o-clock</a> library (this is where the type <code>Time Millisecond</code> comes from).<br/>For simplicity, the below examples will simply rethrow any exceptions found.</p><div class="callout note "><div class="callout-title">Note</div>
 <p>If you don&rsquo;t want to poll for the answer, you can use the <code>createTask</code> and <code>getTask</code> functions directly.</p></div>
-<h2><a href="#image-captcha" name="image-captcha" class="anchor"><span class="anchor-link"></span></a>Image captcha</h2>
+<h2><a href="#imagecaptcha" name="imagecaptcha" class="anchor"><span class="anchor-link"></span></a>ImageCaptcha</h2>
 <table>
   <thead>
     <tr>
@@ -233,6 +233,89 @@ main = do
     Right result -&gt; print result
     Left exception -&gt; throw exception</code></pre></dd>
 </dl>
+<h2><a href="#textcaptcha" name="textcaptcha" class="anchor"><span class="anchor-link"></span></a>TextCaptcha</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name </th>
+      <th>Type </th>
+      <th>Description </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>apiKey </td>
+      <td>Text </td>
+      <td>API key for captcha service </td>
+    </tr>
+    <tr>
+      <td>body </td>
+      <td>Text </td>
+      <td>Text captcha to be solved </td>
+    </tr>
+    <tr>
+      <td>pollingInterval </td>
+      <td>Maybe (Time Millisecond) </td>
+      <td>Interval to poll for the captcha&rsquo;s answer </td>
+    </tr>
+    <tr>
+      <td>timeoutDuration </td>
+      <td>Maybe (Time Millisecond) </td>
+      <td>Max timeout when solving captchas </td>
+    </tr>
+  </tbody>
+</table>
+<dl>
+  <dt>2Captcha</dt>
+  <dd>
+  <pre class="prettyprint"><button class="snippet-button copy-snippet" title="Copy snippet to clipboard">copy</button><code class="language-hs">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), HasApiKey (apiKey), HasBody (body), MonadCaptcha (solve), TextCaptcha, mkCaptchaEnv)
+import Captcha.TwoCaptcha (TwoCaptcha)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~))
+import Data.Default (Default (def))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @TextCaptcha
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; body .~ &quot;YOUR_TEXT_CAPTCHA&quot;
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @TwoCaptcha captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception</code></pre></dd>
+  <dt>2Captcha (Full)
+  </dt>
+  <dd>
+  <pre class="prettyprint"><button class="snippet-button copy-snippet" title="Copy snippet to clipboard">copy</button><code class="language-hs">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE NumericUnderscores #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), HasApiKey (apiKey), HasBody (body), HasPollingInterval (pollingInterval), HasTimeoutDuration (timeoutDuration), MonadCaptcha (solve), TextCaptcha, mkCaptchaEnv)
+import Captcha.TwoCaptcha (TwoCaptcha)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~), (?~))
+import Data.Default (Default (def))
+import Time (Time (Time))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @TextCaptcha
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; body .~ &quot;YOUR_TEXT_CAPTCHA&quot;
+          &amp; pollingInterval ?~ Time 5000
+          &amp; timeoutDuration ?~ Time 60_000
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @TwoCaptcha captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception</code></pre></dd>
+</dl>
 </div>
 <div class="large-3 show-for-large column" data-sticky-container>
 <nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
@@ -242,7 +325,8 @@ main = do
 <ul>
   <li><a href="solving-captchas.html#solving-captchas" class="header">Solving captchas</a>
   <ul>
-    <li><a href="solving-captchas.html#image-captcha" class="header">Image captcha</a></li>
+    <li><a href="solving-captchas.html#imagecaptcha" class="header">ImageCaptcha</a></li>
+    <li><a href="solving-captchas.html#textcaptcha" class="header">TextCaptcha</a></li>
   </ul></li>
 </ul>
 </div>
