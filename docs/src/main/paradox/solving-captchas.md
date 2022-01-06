@@ -56,8 +56,8 @@ CapMonster (Full)
 |-----------------|--------------------------|------------------------------------------------|
 | apiKey          | Text                     | API key for captcha service                    |
 | captchaUrl      | Text                     | Url where the captcha is found                 |
-| captchaKey      | Text                     | FunCaptcha's __data-pkey__ value.              |
-| serviceUrl      | Maybe Text               | FunCaptcha's __surl__ value.                   |
+| captchaKey      | Text                     | FunCaptcha's __data-pkey__ value               |
+| serviceUrl      | Maybe Text               | FunCaptcha's __surl__ value                    |
 | userAgent       | Maybe Text               | User agent to be used when solving the captcha |
 | proxy           | Maybe Proxy              | Proxy to be used when solving the captcha      |
 | cookies         | Cookies                  | Cookies to be used when solving the captcha    |
@@ -83,8 +83,8 @@ CapMonster (Full)
 | apiKey          | Text                     | API key for captcha service                    |
 | invisible       | Boolean                  | Is the captcha using the invisible variant?    |
 | captchaUrl      | Text                     | Url where the captcha is found                 |
-| captchaKey      | Text                     | reCAPTCHA v2's __data-sitekey__ value.         |
-| dataS           | Maybe Text               | reCAPTCHA's v2's __data-s__ value.             |
+| captchaKey      | Text                     | reCAPTCHA v2's __data-sitekey__ value          |
+| dataS           | Maybe Text               | reCAPTCHA v2's __data-s__ value              |
 | userAgent       | Maybe Text               | User agent to be used when solving the captcha |
 | proxy           | Maybe Proxy              | Proxy to be used when solving the captcha      |
 | cookies         | Cookies                  | Cookies to be used when solving the captcha    |
@@ -102,3 +102,30 @@ CapMonster
 
 CapMonster (Full)
 : @@snip [ReCaptchaV2.hs](/src/main/resources/examples/capmonster/full/ReCaptchaV2.hs)
+
+## ReCaptchaV3
+
+| Name            | Type                     | Description                                    |
+|-----------------|--------------------------|------------------------------------------------|
+| apiKey          | Text                     | API key for captcha service                    |
+| minScore        | Double                   | reCAPTCHAV3's minimum score                    |
+| captchaUrl      | Text                     | Url where the captcha is found                 |
+| captchaKey      | Text                     | reCAPTCHA v3's __sitekey__ value               |
+| action          | Maybe Text               | reCAPTCHA v3's __action__ value                |
+| userAgent       | Maybe Text               | User agent to be used when solving the captcha |
+| proxy           | Maybe Proxy              | Proxy to be used when solving the captcha      |
+| cookies         | Cookies                  | Cookies to be used when solving the captcha    |
+| pollingInterval | Maybe (Time Millisecond) | Interval to poll for the captcha's answer      |
+| timeoutDuration | Maybe (Time Millisecond) | Max timeout when solving captchas              |
+
+2Captcha
+: @@snip [ReCaptchaV3.hs](/src/main/resources/examples/2captcha/minimal/ReCaptchaV3.hs)
+
+CapMonster
+: @@snip [ReCaptchaV3.hs](/src/main/resources/examples/capmonster/minimal/ReCaptchaV3.hs)
+
+2Captcha (Full)
+: @@snip [ReCaptchaV3.hs](/src/main/resources/examples/2captcha/full/ReCaptchaV3.hs)
+
+CapMonster (Full)
+: @@snip [ReCaptchaV3.hs](/src/main/resources/examples/capmonster/full/ReCaptchaV3.hs)
