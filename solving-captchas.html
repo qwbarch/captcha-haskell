@@ -316,6 +316,175 @@ main = do
     Right result -&gt; print result
     Left exception -&gt; throw exception</code></pre></dd>
 </dl>
+<h2><a href="#funcaptcha" name="funcaptcha" class="anchor"><span class="anchor-link"></span></a>FunCaptcha</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name </th>
+      <th>Type </th>
+      <th>Description </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>apiKey </td>
+      <td>Text </td>
+      <td>API key for captcha service </td>
+    </tr>
+    <tr>
+      <td>captchaUrl </td>
+      <td>Text </td>
+      <td>Url where the captcha is found </td>
+    </tr>
+    <tr>
+      <td>captchaKey </td>
+      <td>Text </td>
+      <td>FunCaptcha&rsquo;s <strong>data-pkey</strong> value. </td>
+    </tr>
+    <tr>
+      <td>serviceUrl </td>
+      <td>Maybe Text </td>
+      <td>FunCaptcha&rsquo;s <strong>surl</strong> value. </td>
+    </tr>
+    <tr>
+      <td>userAgent </td>
+      <td>Maybe Text </td>
+      <td>User agent to be used when solving the captcha </td>
+    </tr>
+    <tr>
+      <td>proxy </td>
+      <td>Maybe Proxy </td>
+      <td>Proxy to be used when solving the captcha </td>
+    </tr>
+    <tr>
+      <td>cookies </td>
+      <td>Cookies </td>
+      <td>Cookies to be used when solving the captcha </td>
+    </tr>
+    <tr>
+      <td>pollingInterval </td>
+      <td>Maybe (Time Millisecond) </td>
+      <td>Interval to poll for the captcha&rsquo;s answer </td>
+    </tr>
+    <tr>
+      <td>timeoutDuration </td>
+      <td>Maybe (Time Millisecond) </td>
+      <td>Max timeout when solving captchas </td>
+    </tr>
+  </tbody>
+</table>
+<dl>
+  <dt>2Captcha</dt>
+  <dd>
+  <pre class="prettyprint"><button class="snippet-button copy-snippet" title="Copy snippet to clipboard">copy</button><code class="language-hs">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), FunCaptcha, HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), MonadCaptcha (solve), mkCaptchaEnv)
+import Captcha.TwoCaptcha (TwoCaptcha)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~))
+import Data.Default (Default (def))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @FunCaptcha
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; captchaUrl .~ &quot;https://api.funcaptcha.com/fc/api/nojs&quot;
+          &amp; captchaKey .~ &quot;69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC&quot;
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @TwoCaptcha captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception</code></pre></dd>
+  <dt>CapMonster</dt>
+  <dd>
+  <pre class="prettyprint"><button class="snippet-button copy-snippet" title="Copy snippet to clipboard">copy</button><code class="language-hs">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), FunCaptcha, HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), MonadCaptcha (solve), mkCaptchaEnv)
+import Captcha.CapMonster (CapMonster)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~))
+import Data.Default (Default (def))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @FunCaptcha
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; captchaUrl .~ &quot;https://api.funcaptcha.com/fc/api/nojs&quot;
+          &amp; captchaKey .~ &quot;69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC&quot;
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @CapMonster captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception</code></pre></dd>
+  <dt>2Captcha (Full)
+  </dt>
+  <dd>
+  <pre class="prettyprint"><button class="snippet-button copy-snippet" title="Copy snippet to clipboard">copy</button><code class="language-hs">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE NumericUnderscores #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), FunCaptcha, HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasCookies (cookies), HasPollingInterval (pollingInterval), HasProxy (proxy), HasServiceUrl (serviceUrl), HasTimeoutDuration (timeoutDuration), HasUserAgent (userAgent), MonadCaptcha (solve), Proxy (Proxy), ProxyAuth (ProxyAuth), ProxyProtocol (Http), mkCaptchaEnv)
+import Captcha.TwoCaptcha (TwoCaptcha)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~), (?~))
+import Data.Default (Default (def))
+import Time (Time (Time))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @FunCaptcha
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; captchaUrl .~ &quot;https://api.funcaptcha.com/fc/api/nojs&quot;
+          &amp; captchaKey .~ &quot;69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC&quot;
+          &amp; cookies .~ [(&quot;cookie_key&quot;, &quot;cookie_value&quot;)]
+          &amp; serviceUrl ?~ &quot;https://api.funcaptcha.com&quot;
+          &amp; userAgent ?~ &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1&quot;
+          &amp; proxy ?~ Proxy &quot;proxy_address&quot; Http 1234 (Just $ ProxyAuth &quot;username&quot; &quot;password&quot;)
+          &amp; pollingInterval ?~ Time 5000
+          &amp; timeoutDuration ?~ Time 60_000
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @TwoCaptcha captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception</code></pre></dd>
+  <dt>CapMonster (Full)
+  </dt>
+  <dd>
+  <pre class="prettyprint"><button class="snippet-button copy-snippet" title="Copy snippet to clipboard">copy</button><code class="language-hs">{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE NumericUnderscores #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Captcha (Captcha (runCaptcha), FunCaptcha, HasApiKey (apiKey), HasCaptchaKey (captchaKey), HasCaptchaUrl (captchaUrl), HasCookies (cookies), HasPollingInterval (pollingInterval), HasProxy (proxy), HasServiceUrl (serviceUrl), HasTimeoutDuration (timeoutDuration), HasUserAgent (userAgent), MonadCaptcha (solve), Proxy (Proxy), ProxyAuth (ProxyAuth), ProxyProtocol (Http), mkCaptchaEnv)
+import Captcha.CapMonster (CapMonster)
+import Control.Exception (throw)
+import Control.Lens ((&amp;), (.~), (?~))
+import Data.Default (Default (def))
+import Time (Time (Time))
+
+main :: IO ()
+main = do
+  let captcha =
+        def @FunCaptcha
+          &amp; apiKey .~ &quot;YOUR_API_KEY&quot;
+          &amp; captchaUrl .~ &quot;https://api.funcaptcha.com/fc/api/nojs&quot;
+          &amp; captchaKey .~ &quot;69A21A01-CC7B-B9C6-0F9A-E7FA06677FFC&quot;
+          &amp; cookies .~ [(&quot;cookie_key&quot;, &quot;cookie_value&quot;)]
+          &amp; serviceUrl ?~ &quot;https://api.funcaptcha.com&quot;
+          &amp; userAgent ?~ &quot;Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1&quot;
+          &amp; proxy ?~ Proxy &quot;proxy_address&quot; Http 1234 (Just $ ProxyAuth &quot;username&quot; &quot;password&quot;)
+          &amp; pollingInterval ?~ Time 5000
+          &amp; timeoutDuration ?~ Time 60_000
+  captchaEnv &lt;- mkCaptchaEnv
+  runCaptcha (solve @CapMonster captcha) captchaEnv &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception</code></pre></dd>
+</dl>
 </div>
 <div class="large-3 show-for-large column" data-sticky-container>
 <nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
@@ -327,6 +496,7 @@ main = do
   <ul>
     <li><a href="solving-captchas.html#imagecaptcha" class="header">ImageCaptcha</a></li>
     <li><a href="solving-captchas.html#textcaptcha" class="header">TextCaptcha</a></li>
+    <li><a href="solving-captchas.html#funcaptcha" class="header">FunCaptcha</a></li>
   </ul></li>
 </ul>
 </div>
