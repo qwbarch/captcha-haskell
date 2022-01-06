@@ -24,16 +24,16 @@ If you don't want to poll for the answer, you can use the ``createTask`` and ``g
 | timeoutDuration | Maybe (Time Millisecond) | Max timeout when solving captchas         |
 
 2Captcha
-: @@snip [ImageCaptcha.hs](/src/main/paradox/examples/2captcha/minimal/ImageCaptcha.hs)
+: @@snip [ImageCaptcha.hs](/src/main/resources/examples/2captcha/minimal/ImageCaptcha.hs)
 
 CapMonster
-: @@snip [ImageCaptcha.hs](/src/main/paradox/examples/capmonster/minimal/ImageCaptcha.hs)
+: @@snip [ImageCaptcha.hs](/src/main/resources/examples/capmonster/minimal/ImageCaptcha.hs)
 
 2Captcha (Full)
-: @@snip [ImageCaptcha.hs](/src/main/paradox/examples/2captcha/full/ImageCaptcha.hs)
+: @@snip [ImageCaptcha.hs](/src/main/resources/examples/2captcha/full/ImageCaptcha.hs)
 
 CapMonster (Full)
-: @@snip [ImageCaptcha.hs](/src/main/paradox/examples/capmonster/full/ImageCaptcha.hs)
+: @@snip [ImageCaptcha.hs](/src/main/resources/examples/capmonster/full/ImageCaptcha.hs)
 
 ## TextCaptcha
 
@@ -45,10 +45,10 @@ CapMonster (Full)
 | timeoutDuration | Maybe (Time Millisecond) | Max timeout when solving captchas         |
 
 2Captcha
-: @@snip [TextCaptcha.hs](/src/main/paradox/examples/2captcha/minimal/TextCaptcha.hs)
+: @@snip [TextCaptcha.hs](/src/main/resources/examples/2captcha/minimal/TextCaptcha.hs)
 
 2Captcha (Full)
-: @@snip [TextCaptcha.hs](/src/main/paradox/examples/2captcha/full/TextCaptcha.hs)
+: @@snip [TextCaptcha.hs](/src/main/resources/examples/2captcha/full/TextCaptcha.hs)
 
 ## FunCaptcha
 
@@ -65,13 +65,13 @@ CapMonster (Full)
 | timeoutDuration | Maybe (Time Millisecond) | Max timeout when solving captchas              |
 
 2Captcha
-: @@snip [FunCaptcha.hs](/src/main/paradox/examples/2captcha/minimal/FunCaptcha.hs)
+: @@snip [FunCaptcha.hs](/src/main/resources/examples/2captcha/minimal/FunCaptcha.hs)
 
 CapMonster
-: @@snip [FunCaptcha.hs](/src/main/paradox/examples/capmonster/minimal/FunCaptcha.hs)
+: @@snip [FunCaptcha.hs](/src/main/resources/examples/capmonster/minimal/FunCaptcha.hs)
 
 2Captcha (Full)
-: @@snip [FunCaptcha.hs](/src/main/paradox/examples/2captcha/full/FunCaptcha.hs)
+: @@snip [FunCaptcha.hs](/src/main/resources/examples/2captcha/full/FunCaptcha.hs)
 
 CapMonster (Full)
-: @@snip [FunCaptcha.hs](/src/main/paradox/examples/capmonster/full/FunCaptcha.hs)
+: @@snip [FunCaptcha.hs](/src/main/resources/examples/capmonster/full/FunCaptcha.hs)
