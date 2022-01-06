@@ -14,7 +14,7 @@ If you don't want to poll for the answer, you can use the ``createTask`` and ``g
 
 @@@
 
-## Image captcha
+## ImageCaptcha
 
 | Name            | Type                     | Description                               |
 |-----------------|--------------------------|-------------------------------------------|
@@ -34,3 +34,18 @@ CapMonster
 
 CapMonster (Full)
 : @@snip [ImageCaptcha.hs](/src/main/paradox/examples/capmonster/full/ImageCaptcha.hs)
+
+## TextCaptcha
+
+| Name            | Type                     | Description                               |
+|-----------------|--------------------------|-------------------------------------------|
+| apiKey          | Text                     | API key for captcha service               |
+| body            | Text                     | Text captcha to be solved                 |
+| pollingInterval | Maybe (Time Millisecond) | Interval to poll for the captcha's answer |
+| timeoutDuration | Maybe (Time Millisecond) | Max timeout when solving captchas         |
+
+2Captcha
+: @@snip [TextCaptcha.hs](/src/main/paradox/examples/2captcha/minimal/TextCaptcha.hs)
+
+2Captcha (Full)
+: @@snip [TextCaptcha.hs](/src/main/paradox/examples/2captcha/full/TextCaptcha.hs)

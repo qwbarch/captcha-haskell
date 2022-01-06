@@ -8,7 +8,7 @@
 
 ## Overview
 
-captcha-haskell is an opinionated package for integrating a variety of captcha solving service.  
+captcha-haskell is an opinionated package for integrating a variety of captcha solving services.  
 This package heavily uses the [lens](https://hackage.haskell.org/package/lens) package
 as shown in the examples.  
 An mtl-style typeclass is provided, allowing you to use your own monad transformer stack.  
