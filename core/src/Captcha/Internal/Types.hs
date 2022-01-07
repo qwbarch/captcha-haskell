@@ -9,6 +9,12 @@
 {-# LANGUAGE UndecidableInstances #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
+-- |
+-- Module: Captcha.Internal.Types
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module is for internal-use and does not follow pvp versioning policies.
 module Captcha.Internal.Types where
 
 import Control.Lens.TH (makeFieldsNoPrefix)

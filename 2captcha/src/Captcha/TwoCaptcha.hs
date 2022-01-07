@@ -1,3 +1,9 @@
+-- |
+-- Module: Captcha.TwoCaptcha
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module exports functions that follow the pvp versioning policies.
 module Captcha.TwoCaptcha
   ( module Captcha.TwoCaptcha.Internal.Error,
     module Captcha.TwoCaptcha.Internal,

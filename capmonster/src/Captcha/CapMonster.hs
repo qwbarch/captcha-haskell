@@ -1,3 +1,9 @@
+-- |
+-- Module: Captcha.CapMonster
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module exports functions that follow the pvp versioning policies.
 module Captcha.CapMonster
   ( module Captcha.CapMonster.Internal.Error,
     module Captcha.CapMonster.Internal,

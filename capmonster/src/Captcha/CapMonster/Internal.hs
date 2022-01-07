@@ -10,6 +10,12 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 
+-- |
+-- Module: Captcha.CapMonster.Internal
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module is for internal-use and does not follow pvp versioning policies.
 module Captcha.CapMonster.Internal where
 
 import Captcha.CapMonster.Internal.Error (CapMonsterError (CapMonsterResponseError, NetworkError, TimeoutError, UnknownError, UnknownResponseError), CapMonsterErrorCode (CaptchaNotReady))

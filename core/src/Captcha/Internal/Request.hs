@@ -1,3 +1,9 @@
+-- |
+-- Module: Captcha.Internal.Request
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module is for internal-use and does not follow pvp versioning policies.
 module Captcha.Internal.Request where
 
 import Captcha.Internal.Monad (HasCaptchaEnv (session))

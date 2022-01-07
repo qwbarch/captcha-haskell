@@ -1,7 +1,11 @@
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE FlexibleContexts #-}
 
+-- |
+-- Module: Captcha.Internal
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module is for internal-use and does not follow pvp versioning policies.
 module Captcha.Internal where
 
 import Captcha.Internal.Types (HasAddress (address), HasAuth (auth), HasCookies (cookies), HasPassword (password), HasPort (port), HasProtocol (protocol), HasProxy (proxy), HasUsername (username), Proxy)

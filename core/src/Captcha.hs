@@ -1,3 +1,9 @@
+-- |
+-- Module: Captcha
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module exports functions that follow the pvp versioning policies.
 module Captcha
   ( module Captcha.Internal.Types,
     module Captcha.Internal.Monad,

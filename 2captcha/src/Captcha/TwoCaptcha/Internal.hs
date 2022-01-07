@@ -11,6 +11,12 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 
+-- |
+-- Module: Captcha.TwoCaptcha.Internal
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module is for internal-use and does not follow pvp versioning policies.
 module Captcha.TwoCaptcha.Internal where
 
 import Captcha.Internal (getProxyAddress, getProxyPassword, getProxyPort, getProxyUsername)

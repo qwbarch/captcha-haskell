@@ -3,6 +3,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE StrictData #-}
 
+-- |
+-- Module: Captcha.CapMonster.Internal.Error
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module is for internal-use and does not follow pvp versioning policies.
 module Captcha.CapMonster.Internal.Error where
 
 import Control.Exception (Exception)

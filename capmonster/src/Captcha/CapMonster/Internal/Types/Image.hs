@@ -4,6 +4,12 @@
 {-# LANGUAGE QuasiQuotes #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
+-- |
+-- Module: Captcha.CapMonster.Internal.Types.Image
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module is for internal-use and does not follow pvp versioning policies.
 module Captcha.CapMonster.Internal.Types.Image where
 
 import Captcha.CapMonster.Internal (CapMonster)

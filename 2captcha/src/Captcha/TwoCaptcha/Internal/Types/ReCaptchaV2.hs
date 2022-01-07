@@ -3,6 +3,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
+-- |
+-- Module: Captcha.TwoCaptcha.Internal.Types.ReCaptchaV2
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module is for internal-use and does not follow pvp versioning policies.
 module Captcha.TwoCaptcha.Internal.Types.ReCaptchaV2 where
 
 import Captcha.Internal (renderCookies)

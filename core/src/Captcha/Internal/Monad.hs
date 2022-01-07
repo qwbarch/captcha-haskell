@@ -1,6 +1,12 @@
 {-# LANGUAGE DerivingVia #-}
 {-# LANGUAGE TemplateHaskell #-}
 
+-- |
+-- Module: Captcha.Internal.Monad
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module is for internal-use and does not follow pvp versioning policies.
 module Captcha.Internal.Monad where
 
 import Control.Lens.TH (makeClassy)

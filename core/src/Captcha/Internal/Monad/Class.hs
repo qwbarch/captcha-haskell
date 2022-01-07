@@ -3,6 +3,12 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
 
+-- |
+-- Module: Captcha.Internal.Monad.Class
+-- Copyright: (c) 2022 Edward Yang
+-- License: MIT
+--
+-- This module is for internal-use and does not follow pvp versioning policies.
 module Captcha.Internal.Monad.Class where
 
 import Captcha.Internal.Types (HasApiKey, HasPollingInterval, HasTimeoutDuration)
