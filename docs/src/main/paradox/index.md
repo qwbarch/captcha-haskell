@@ -8,6 +8,8 @@
 
 # captcha-haskell
 
+[![Hackage](http://img.shields.io/hackage/v/captcha-core.svg)](https://hackage.haskell.org/package/captcha-core)
+
 ## Overview
 
 captcha-haskell is an opinionated package for integrating a variety of captcha solving services.  
