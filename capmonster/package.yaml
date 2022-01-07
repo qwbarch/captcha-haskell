@@ -5,12 +5,24 @@ license: MIT
 author: "Edward Yang"
 maintainer: "qwbarch@gmail.com"
 copyright: "2021 Edward Yang"
+category: Network
 
 extra-source-files:
   - README.md
   - CHANGELOG.md
 
-description: Please see the README on GitHub at <https://github.com/qwbarch/captcha-haskell#readme>
+synopsis: A package for integrating a variety of captcha solving services.
+
+description: |
+  A package for integrating a variety of captcha solving services.
+
+  Feature list:
+  
+  * Makes use of the [lens](https://hackage.haskell.org/package/lens) package
+  * Mtl-style typeclass, allowing you to use your own monad transformer stack
+  * No exceptions are thrown. Errors are shown explicitly through its type signature
+  * Minimal test suite provided for each captcha type
+  * Captcha services are separated into different packages. Use what you need!
 
 dependencies:
   - base >= 4.7 && < 5
