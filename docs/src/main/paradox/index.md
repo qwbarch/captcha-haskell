@@ -2,6 +2,7 @@
 
 * [Solving captchas](solving-captchas.md)
 * [Custom monad](custom-monad.md)
+* [Running tests](running-tests.md)
 
 @@@
 
