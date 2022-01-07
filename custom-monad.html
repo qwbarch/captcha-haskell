@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 
 <head>
-<title>captcha-haskell</title>
+<title>Custom monad · captcha-haskell</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="description" content='root'/>
@@ -27,7 +27,7 @@
 <div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
 <nav class="off-canvas-nav">
 <div class="nav-home">
-<a href="index.html" class="active">
+<a href="index.html" >
 <span class="home-icon">⌂</span>captcha-haskell
 </a>
 <div class="version-number">
@@ -37,7 +37,7 @@
 <div class="nav-toc">
 <ul>
   <li><a href="solving-captchas.html" class="page">Solving captchas</a></li>
-  <li><a href="custom-monad.html" class="page">Custom monad</a></li>
+  <li><a href="custom-monad.html" class="active page">Custom monad</a></li>
 </ul>
 </div>
 
@@ -52,7 +52,7 @@
 H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
 C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
 </a>
-<div class="title"><a href="index.html" class="active">captcha-haskell</a></div>
+<div class="title"><a href="index.html">captcha-haskell</a></div>
 
 <!--
 <a href="https://www.example.com" class="logo show-for-medium">logo</a>
@@ -65,7 +65,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <div class="medium-3 large-2 show-for-medium column">
 <nav class="site-nav">
 <div class="nav-home">
-<a href="index.html" class="active">
+<a href="index.html" >
 <span class="home-icon">⌂</span>captcha-haskell
 </a>
 <div class="version-number">
@@ -75,7 +75,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <div class="nav-toc">
 <ul>
   <li><a href="solving-captchas.html" class="page">Solving captchas</a></li>
-  <li><a href="custom-monad.html" class="page">Custom monad</a></li>
+  <li><a href="custom-monad.html" class="active page">Custom monad</a></li>
 </ul>
 </div>
 
@@ -89,46 +89,70 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 
 <div class="page-header row">
 <div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="index.html">captcha-haskell</a></li>
+  <li>Custom monad</li>
+</ul>
+</div>
 </div>
 </div>
 
 <div class="page-content row">
 <div class="small-12 large-9 column" id="docs">
-<h1><a href="#captcha-haskell" name="captcha-haskell" class="anchor"><span class="anchor-link"></span></a>captcha-haskell</h1>
-<h2><a href="#overview" name="overview" class="anchor"><span class="anchor-link"></span></a>Overview</h2>
-<p>captcha-haskell is an opinionated package for integrating a variety of captcha solving services.<br/>This package heavily uses the <a href="https://hackage.haskell.org/package/lens">lens</a> package as shown in the examples.<br/>An mtl-style typeclass is provided, allowing you to use your own monad transformer stack.<br/>In order to fit a common interface between captcha solving services, not all captcha types are supported.<br/>If the package is missing a captcha type you&rsquo;d like to use, consider opening an <a href="https://github.com/qwbarch/captcha-haskell/issues">issue</a>.</p>
-<div class="toc ">
-<ul>
-  <li><a href="solving-captchas.html" class="page">Solving captchas</a>
-  <ul>
-    <li><a href="solving-captchas.html#imagecaptcha" class="header">ImageCaptcha</a></li>
-    <li><a href="solving-captchas.html#textcaptcha" class="header">TextCaptcha</a></li>
-    <li><a href="solving-captchas.html#funcaptcha" class="header">FunCaptcha</a></li>
-    <li><a href="solving-captchas.html#recaptchav2" class="header">ReCaptchaV2</a></li>
-    <li><a href="solving-captchas.html#recaptchav3" class="header">ReCaptchaV3</a></li>
-    <li><a href="solving-captchas.html#hcaptcha" class="header">HCaptcha</a></li>
-  </ul></li>
-  <li><a href="custom-monad.html" class="page">Custom monad</a></li>
-</ul>
-</div>
-<div class="nav-next">
-<p><strong>Next:</strong> <a href="solving-captchas.html">Solving captchas</a></p>
-</div>
+<h1><a href="#custom-monad" name="custom-monad" class="anchor"><span class="anchor-link"></span></a>Custom monad</h1>
+<p>This section shows how to use a custom monad transformer stack with the <code>captcha-haskell</code> package.</p>
+<p>To satisfy <code>MonadCaptcha</code>, a tiny amount of boilerplate is required by providing an instance of <code>HasCaptchaEnv</code>.<br/>We will provide this instance with the help of the lens <a href="https://hackage.haskell.org/package/lens">lens</a> package.</p>
+<p>Here are the required imports and language extensions for the example below:</p>
+<pre class="prettyprint"><code class="language-haskell">{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE StrictData #-}
+
+import Captcha (CaptchaEnv, HasCaptchaEnv (captchaEnv), ImageCaptcha, MonadCaptcha (solve), mkCaptchaEnv)
+import Captcha.TwoCaptcha (TwoCaptcha)
+import Control.Exception (throw)
+import Control.Lens.TH (makeClassy)
+import Control.Monad.Reader (MonadReader, ReaderT (runReaderT))
+import Data.Default (Default (def))
+import UnliftIO (MonadIO, MonadUnliftIO)
+</code></pre>
+<p>A minimal <code>AppM</code> using <a href="https://hackage.haskell.org/package/mtl-2.2.2/docs/Control-Monad-Reader.html#g:3">ReaderT</a> to pass its environment <code>AppEnv</code> around implicitly:</p>
+<pre class="prettyprint"><code class="language-haskell">newtype AppM a = AppM
+  { unAppM :: ReaderT AppEnv IO a
+  }
+  deriving
+    ( Applicative,
+      Functor,
+      Monad,
+      MonadIO,
+      MonadUnliftIO,
+      MonadReader AppEnv
+    )
+</code></pre>
+<p>Here is a minimal <code>AppEnv</code> to make your <code>AppM</code> satisfy <code>MonadCaptcha</code>:</p>
+<pre class="prettyprint"><code class="language-haskell">data AppEnv = AppEnv
+  { _appCaptchaEnv :: CaptchaEnv
+  }
+
+makeClassy &#39;&#39;AppEnv
+
+instance HasCaptchaEnv AppEnv where
+  captchaEnv = appCaptchaEnv
+</code></pre>
+<p>Now you&rsquo;ll be able to use solve captchas from within your <code>AppM</code>:</p>
+<pre class="prettyprint"><code class="language-haskell">main :: IO ()
+main = do
+  let captcha = def @ImageCaptcha
+  captchaEnv &lt;- mkCaptchaEnv
+  runAppM (solve @TwoCaptcha captcha) (AppEnv captchaEnv) &gt;&gt;= \case
+    Right result -&gt; print result
+    Left exception -&gt; throw exception
+</code></pre><div class="callout note "><div class="callout-title">Note</div>
+<p>Notice the <code>HasCaptchaEnv</code> instance, this boilerplate is required.</p></div>
 </div>
 <div class="large-3 show-for-large column" data-sticky-container>
-<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
-<div class="page-nav">
-<div class="nav-title">On this page:</div>
-<div class="nav-toc">
-<ul>
-  <li><a href="index.html#captcha-haskell" class="header">captcha-haskell</a>
-  <ul>
-    <li><a href="index.html#overview" class="header">Overview</a></li>
-  </ul></li>
-</ul>
-</div>
-</div>
-</nav>
 </div>
 </div>
 
