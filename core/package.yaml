@@ -1,5 +1,5 @@
 name: captcha-core
-version: 0.1.0.0
+version: 0.1.0.1
 github: "qwbarch/captcha-haskell"
 license: MIT
 author: "Edward Yang"
